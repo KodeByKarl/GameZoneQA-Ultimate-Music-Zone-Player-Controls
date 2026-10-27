@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modules.css">
+    <link rel="stylesheet" href="watchzone.css">
+    <link rel="icon" href="udp.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <!-- Custom Title Bar - NOW ALWAYS VISIBLE -->
+        <div id="customTitleBar">
+            <div class="title-bar-left">
+                <img src="udp.ico" class="title-bar-logo"> <!-- Updated path -->
+                <span class="title-bar-text">GameZoneQA Ultimate</span>
+                <span id="titleBarVersion" class="title-bar-version"></span>
+                <!-- Membership badge -->
+                <span id="membershipBadge" class="membership-badge badge-free">FREE</span> 
+            </div>
+            <div class="title-bar-right">
+                <i class="fas fa-minus title-bar-btn" id="minimizeAppButton"></i>
+                <i class="far fa-window-maximize title-bar-btn" id="maximizeAppButton"></i>
+                <i class="fas fa-times title-bar-btn close" id="closeAppButton"></i>
+            </div>
+        </div>
+
+
+        <!-- Authentication Page -->
+        <div id="authSection" class="auth-page" style="display: flex;">
+            <div class="auth-title-container">
+                <h1>GameZoneQA Ultimate</h1>
+            </div>
+            <div class="app-loader" id="authLoader" style="display: block;"></div>
+            <div id="authFormElements" style="display: none;">
+                <input type="text" id="authCodeInput" placeholder="Authentication Code">
+                <button id="submitAuthButton">Submit</button>
+                <button id="continueGuestButton" class="guest-auth-button">Continue as Guest</button>
+                <p id="authStatus" style="display: none;text-align: center;"></p>
+                <div id="authReadme" class="auth-readme-content" style="display: none; text-align: center;"></div>
+            </div>
+        </div>
+
+        <!-- Change Device Button Container -->
+        <div id="pageBottomRightButtonContainer" style="position: fixed; bottom: 20px; right: 20px; z-index: 999; display: none;">
+            <button id="changeDeviceButton" class="secondary-auth-button" style="display: none;">REGISTER THIS DEVICE</button>
+        </div>
+
+        <!-- Change Device Modal -->
+        <div id="changeDeviceModal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 400px;">
+                <h2 style="margin-bottom: 10px;">Change Device</h2>
+                <p class="modal-description" style="text-align: center; margin-bottom: 15px;">You can change your hardware ID device link once every 7 days. Enter your premium code below to verify.</p>
+                <input type="text" id="changeDeviceAuthCodeInput" placeholder="Premium Authentication Code">
+                <p id="changeDeviceStatus" style="display: none; text-align: center; margin-top: 10px;"></p>
+                <div class="modal-button-row" style="margin-top: 20px;">
+                    <button id="closeChangeDeviceModal" class="secondary-auth-button">Cancel</button>
+                    <button id="submitChangeDeviceButton" class="modal-submit-button" style="margin-bottom: 0;">Register This Device</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Confirm Modal -->
+        <div id="customConfirmModal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 400px;">
+                <h2 id="customConfirmTitle">Confirm Action</h2>
+                <p id="customConfirmMessage" class="modal-description" style="text-align: center; margin-bottom: 24px;">Are you sure?</p>
+                <div class="modal-button-row">
+                    <button id="customConfirmCancel" class="secondary-auth-button">Cancel</button>
+                    <button id="customConfirmProceed" class="modal-submit-button" style="margin-bottom: 0;">Proceed</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Application Section -->
+        <div id="mainAppSection" style="display: none;">
+            <div id="sidebar">
+                <div id="sidebarHeader">
+                    <div id="appHeader">
+                        <!-- Version removed from here, Title made bigger in CSS -->
+                        <h1>GameZoneQA</h1>
+                        <p class="app-subtitle"><em>Your Ultimate All-in-One App</em></p>
+                    </div>
+                    <nav id="sidebarMenu">
+                        <button id="menuHomeButton" class="sidebar-menu-item"><i class="fas fa-home"></i> <span>Home</span></button>
+                        <button id="menuHelpButton" class="sidebar-menu-item"><i class="fas fa-circle-question"></i> <span>User Guide</span></button>
+                        <button id="menuGamelistButton" class="sidebar-menu-item"><i class="fas fa-search"></i> <span>Download Hub</span></button>
+                        <button id="menuSteamlessButton" class="sidebar-menu-item"><i class="fas fa-link"></i> <span>Patch Hub</span></button>
+                        <button id="menuDrmButton" class="sidebar-menu-item"><i class="fas fa-unlock-alt"></i> <span>Manual Activation</span></button>
+                        <button id="menuLibraryButton" class="sidebar-menu-item"><i class="fab fa-steam"></i> <span>Steam Library</span></button>
+                        <button id="menuZonePlayButton" class="sidebar-menu-item"><i class="fas fa-play"></i> <span>Zone Play</span></button>
+                        <button id="menuRetroPlayButton" class="sidebar-menu-item"><i class="fas fa-compact-disc"></i> <span>Retro Play</span></button>
+                        <button id="menuGameLibButton" class="sidebar-menu-item"><i class="fas fa-gamepad"></i> <span>Switch Games</span></button>
+                        <button id="menuWatchZoneButton" class="sidebar-menu-item"><i class="fas fa-film"></i> <span>Watch Zone</span></button>
+                        <button id="menuYouTubeMusicButton" class="sidebar-menu-item"><i class="fab fa-youtube"></i> <span>Music Zone</span></button>
+                        <button id="menuWebsitesButton" class="sidebar-menu-item"><i class="fas fa-globe"></i> <span>Discover</span></button>
+                        <button id="menuSoftwareButton" class="sidebar-menu-item"><i class="fas fa-cube"></i> <span>Software Library</span></button>
+                        <button id="menuProductButton" class="sidebar-menu-item"><i class="fas fa-box-open"></i> <span>Product Library</span></button>
+                        <button id="menuMarketplaceButton" class="sidebar-menu-item"><i class="fas fa-store"></i> <span>Marketplace</span></button>
+                        <button id="menuReviewsButton" class="sidebar-menu-item"><i class="fas fa-star"></i> <span>Reviews</span></button>
+                        <button id="menuContactButton" class="sidebar-menu-item"><i class="fas fa-headset"></i> <span>Contact</span></button>
+                        <button id="menuLiveChatButton" class="sidebar-menu-item"><i class="fas fa-comments"></i> <span>Live Chat</span><span id="appChatUnreadBadge" class="chat-unread-badge" style="display: none;"></span></button>
+                    </nav>
+                </div>
+                <div id="sidebarBottom">
+                    <button id="menuLogoutButton" class="sidebar-menu-item"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button>
+                </div>
+            </div>
+
+            <div id="contentAreaWrapper">
+                <div id="mainContentArea">
+                    <!-- Home View (intentionally minimal for now) -->
+                    <div id="homeView" class="content-view">
+                        <div class="home-wrap">
+                            <div class="home-hero">
+                                <img src="udp.ico" class="home-hero-logo">
+                                <div>
+                                    <h1>GameZoneQA <span>Ultimate</span></h1>
+                                </div>
+                            </div>
+
+                            <div class="home-scroll">
+                            <div class="home-message">
+                                <div class="home-message-head"><i class="fas fa-heart"></i> A message from GameZoneQA</div>
+                                <p class="lead">Today, we proudly present the GameZoneQA Ultimate App.</p>
+                                <p>This application represents everything we have learned, built, and achieved since October 2024 — the result of countless hours of development, customer feedback, late nights, problem-solving, and continuous improvement. More importantly, it represents our gratitude.</p>
+                                <p>The Ultimate App is not just software. It is a symbol of appreciation for every customer who trusted us when we were unknown, every person who met us at a metro station, every member who joined our Discord community, every client who recommended us to friends and family, and every supporter who stayed with us through every stage of our growth.</p>
+                                <p class="thanks">Without you, there would be no GameZoneQA.</p>
+                                <p><strong>To our loyal clients:</strong> Thank you for believing in us. Thank you for trusting us. Thank you for growing with us.</p>
+                                <p>From a small project in Qatar to a community spanning multiple countries, this journey has been incredible — and we're only getting started. The GameZoneQA Ultimate App is our gift to you: a free platform created to make your experience better, faster, and more convenient than ever before.</p>
+                            </div>
+
+                            <div class="home-section-title"><i class="fas fa-bullhorn"></i> Announcements
+                                <button id="annRefresh" class="ann-refresh"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                            <div id="announcements" class="announcements">
+                                <div class="ann-state"><div class="loader"></div><p>Loading announcements...</p></div>
+                            </div>
+                            </div><!-- /home-scroll -->
+                        </div>
+                        <!-- Legacy elements kept hidden so existing renderer logic keeps its references -->
+                        <div style="display:none;">
+                            <input type="text" id="appIdInput">
+                            <button id="processAppIdButton"></button>
+                            <button id="deleteIdButton"></button>
+                            <div id="dragDropArea"><button id="browseFilesButton"></button><input type="file" id="fileInputHidden" multiple></div>
+                        </div>
+                    </div>
+                    <div id="youtubeMusicView" class="content-view music-zone-view" style="position: relative; flex-direction: column; overflow: hidden;">
+                        <div id="youtubeMusicHost" style="position:relative; flex:1 1 auto; min-height:0; width:100%;"></div>
+</div>
+
+                    <div id="logsView" class="content-view">
+    <div id="statusArea" style="height: 100%; min-height: 400px;">
+        <!-- Log entries will go here -->
+    </div>
+</div>
+
+                    <!-- Game List View -->
+                    <div id="gamelistView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <div class="search-input-container">
+                                    <input type="search" id="gamelistSearchView" class="search-input" placeholder="Enter AppID or Game Title...">
+                                </div>
+                                <button id="gamelistSearchButton" class="gamelist-search-button">Search</button>
+                            </div>
+                            <div class="gamelist-notice-badge">
+                                Don't panic! If your game shows "Not Playable," you can apply the bypass or request an activation. Open User Guide and follow the guides.
+                            </div>
+                            <div class="gamelist-filter-row">
+                                <div id="gamelistCategoryStrip" class="gamelist-category-strip" style="display: none;">
+                                    <button id="gamelistCategoryPrev" class="gamelist-category-arrow"><i class="fas fa-chevron-left"></i></button>
+                                    <div id="gamelistCategoryScroller" class="gamelist-category-scroller"></div>
+                                    <button id="gamelistCategoryNext" class="gamelist-category-arrow"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div id="gamelistSortBar" class="gamelist-sort-bar">
+                                    <div id="gamelistPlayableSelect" class="gamelist-sort-select gamelist-playable-select" data-value="all">
+                                        <button id="gamelistPlayableButton" class="gamelist-sort-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+                                            <span id="gamelistPlayableButtonText">All Status</span>
+                                            <i class="fas fa-chevron-down"></i>
+                                        </button>
+                                        <div id="gamelistPlayableOptions" class="gamelist-sort-options" role="listbox">
+                                            <button class="gamelist-sort-option gamelist-playable-option active" type="button" role="option" data-value="all" aria-selected="true">All Status</button>
+                                            <button class="gamelist-sort-option gamelist-playable-option" type="button" role="option" data-value="playable" aria-selected="false">Playable</button>
+                                            <button class="gamelist-sort-option gamelist-playable-option" type="button" role="option" data-value="not_playable" aria-selected="false">Not Playable</button>
+                                        </div>
+                                    </div>
+                                    <div id="gamelistSortSelect" class="gamelist-sort-select" data-value="newest">
+                                        <button id="gamelistSortButton" class="gamelist-sort-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+                                            <span id="gamelistSortButtonText">Newest to Oldest</span>
+                                            <i class="fas fa-chevron-down"></i>
+                                        </button>
+                                        <div id="gamelistSortOptions" class="gamelist-sort-options" role="listbox">
+                                            <button class="gamelist-sort-option active" type="button" role="option" data-value="newest" aria-selected="true">Newest to Oldest</button>
+                                            <button class="gamelist-sort-option" type="button" role="option" data-value="oldest" aria-selected="false">Oldest to Newest</button>
+                                            <button class="gamelist-sort-option" type="button" role="option" data-value="az" aria-selected="false">A-Z</button>
+                                            <button class="gamelist-sort-option" type="button" role="option" data-value="za" aria-selected="false">Z-A</button>
+                                        </div>
+                                    </div>
+                                    <button id="gamelistClearFilterButton" class="gamelist-clear-filter-button" type="button"><i class="fas fa-times"></i> Clear</button>
+                                </div>
+                            </div>
+                            <div id="gamelistStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="gamelistGameList" class="game-list-container">
+                                <!-- Game items will be populated here by renderer.js -->
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Gamelist is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Zone Play View -->
+                    <div id="zonePlayView" class="content-view">
+                        <div class="view-actual-content">
+                            <div class="controls-bar">
+                                <div class="search-input-container">
+                                    <input type="search" id="zonePlaySearch" class="search-input" placeholder="Search Zone Play games...">
+                                </div>
+                                <button id="zonePlayRefresh" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div class="gamelist-notice-badge zoneplay-antivirus-notice">
+                                Offline games. Steam is not required. Disable antivirus or exclude the save folder before downloading.
+                            </div>
+                            <div class="gamelist-filter-row zoneplay-filter-row">
+                                <div class="gamelist-category-strip">
+                                    <button id="zonePlayCategoryPrev" class="gamelist-category-arrow"><i class="fas fa-chevron-left"></i></button>
+                                    <div id="zonePlayCategoryScroller" class="gamelist-category-scroller"></div>
+                                    <button id="zonePlayCategoryNext" class="gamelist-category-arrow"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="gl-nav zoneplay-mode-tabs">
+                                    <button id="zonePlayAllTab" class="gl-nav-btn active" type="button" data-mode="all"><i class="fas fa-border-all"></i><span>All Games</span></button>
+                                    <button id="zonePlayInstalledTab" class="gl-nav-btn" type="button" data-mode="installed"><i class="fas fa-check-circle"></i><span>Installed Games</span></button>
+                                </div>
+                            </div>
+                            <div id="zonePlayStatus" class="list-status-message" style="display:none;"></div>
+                            <div id="zonePlayGrid" class="game-list-container zoneplay-grid"></div>
+                            <div id="zonePlayDownloadBar" class="steam-cfg-bar zoneplay-download-bar" style="display:none;">
+                                <div class="zoneplay-download-info">
+                                    <span class="steam-cfg-label"><i class="fas fa-download"></i> Zone Play Download</span>
+                                    <span id="zonePlayDownloadText">Idle</span>
+                                </div>
+                                <div class="zoneplay-progress-wrap">
+                                    <div class="gz-progress"><div class="gz-progress-inner" id="zonePlayProgressInner"></div></div>
+                                    <span id="zonePlayEtaText">ETA --</span>
+                                </div>
+                                <div class="zoneplay-download-actions">
+                                    <button id="zonePlayPauseBtn" class="zoneplay-control-btn" disabled><i class="fas fa-pause"></i></button>
+                                    <button id="zonePlayResumeBtn" class="zoneplay-control-btn" disabled><i class="fas fa-play"></i></button>
+                                    <button id="zonePlayStopBtn" class="zoneplay-control-btn" disabled><i class="fas fa-stop"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Zone Play is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Retro Play View -->
+                    <div id="retroPlayView" class="content-view">
+                        <div class="view-actual-content">
+                            <div class="controls-bar retroplay-controls-bar">
+                                <div class="search-input-container">
+                                    <input type="search" id="retroPlaySearch" class="search-input" placeholder="Search Retro Play games...">
+                                </div>
+                                <div class="retroplay-header-actions">
+                                    <button id="retroPlayArchiveSignIn" class="refresh-button retroplay-auth-button" type="button" aria-label="Checking sign-in status"><i class="fas fa-spinner fa-spin"></i> Checking sign-in...</button>
+                                    <button id="retroPlayOpenLibrary" class="refresh-button" type="button"><i class="fas fa-folder-open"></i></button>
+                                    <button id="retroPlayRefresh" class="refresh-button" type="button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                                </div>
+                            </div>
+                            <div class="gamelist-filter-row retroplay-filter-row">
+                                <div class="gamelist-category-strip">
+                                    <button id="retroPlayCategoryPrev" class="gamelist-category-arrow" type="button"><i class="fas fa-chevron-left"></i></button>
+                                    <div id="retroPlayCategoryScroller" class="gamelist-category-scroller"></div>
+                                    <button id="retroPlayCategoryNext" class="gamelist-category-arrow" type="button"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <div class="gl-nav zoneplay-mode-tabs">
+                                    <button id="retroPlayAllTab" class="gl-nav-btn active" type="button" data-mode="all"><i class="fas fa-border-all"></i><span>All Games</span></button>
+                                    <button id="retroPlayInstalledTab" class="gl-nav-btn" type="button" data-mode="installed"><i class="fas fa-check-circle"></i><span>Installed Games</span></button>
+                                </div>
+                            </div>
+                            <div id="retroPlayStatus" class="list-status-message" style="display:none;"></div>
+                            <div id="retroPlayGrid" class="game-list-container zoneplay-grid retroplay-grid"></div>
+                            <div id="retroPlayDownloadBar" class="steam-cfg-bar zoneplay-download-bar retroplay-download-bar" style="display:none;">
+                                <div class="zoneplay-download-info">
+                                    <span class="steam-cfg-label"><i class="fas fa-download"></i> Retro Play Download</span>
+                                    <span id="retroPlayDownloadText">Idle</span>
+                                </div>
+                                <div class="zoneplay-progress-wrap">
+                                    <div class="gz-progress"><div class="gz-progress-inner" id="retroPlayProgressInner"></div></div>
+                                    <span id="retroPlayEtaText">ETA --</span>
+                                </div>
+                                <div class="zoneplay-download-actions">
+                                    <button id="retroPlayPauseBtn" class="zoneplay-control-btn" type="button" disabled><i class="fas fa-pause"></i></button>
+                                    <button id="retroPlayResumeBtn" class="zoneplay-control-btn" type="button" disabled><i class="fas fa-play"></i></button>
+                                    <button id="retroPlayStopBtn" class="zoneplay-control-btn" type="button" disabled><i class="fas fa-stop"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display:none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Retro Play is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Watch Zone stays inside the primary app view. -->
+                    <div id="watchZoneView" class="content-view watchzone-view">
+                        <div class="watchzone-shell view-actual-content" style="display: none;">
+                            <div class="watchzone-toolbar">
+                                <div class="watchzone-actions">
+                                    <div class="watchzone-mode-tabs" role="tablist" aria-label="Watch Zone catalog">
+                                        <button class="watchzone-mode active" type="button" data-watch-mode="movie"><i class="fas fa-film"></i> Movies</button>
+                                        <button class="watchzone-mode" type="button" data-watch-mode="anime"><i class="fas fa-dragon"></i> Anime</button>
+                                        <button class="watchzone-mode" type="button" data-watch-mode="iptv"><i class="fas fa-tv"></i> IPTV Channels</button>
+                                        <button class="watchzone-mode" type="button" data-watch-mode="cartoon"><i class="fas fa-star"></i> Top Cartoons</button>
+                                    </div>
+                                    <div id="watchZoneTagWrap" class="watchzone-tag-wrap" hidden><div id="watchZoneTagDropdown" class="watchzone-dropdown gamelist-sort-select"><button id="watchZoneTagButton" class="gamelist-sort-button" type="button" aria-label="Filter IPTV channels by tag" aria-haspopup="listbox" aria-expanded="false" aria-controls="watchZoneTagOptions"><span id="watchZoneTagLabel">All tags</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="watchZoneTagOptions" class="gamelist-sort-options" role="listbox" aria-label="Channel tags"></div><select id="watchZoneTagSelect" aria-label="Channel tag" hidden><option value="__all">All tags</option></select></div></div>
+                                    <form id="watchZoneSearchForm" class="watchzone-search">
+                                      <div class="watchzone-search-input">
+                                        <i class="fas fa-search"></i>
+                                        <input id="watchZoneSearchInput" type="search" placeholder="Search movies and shows" autocomplete="off">
+                                      </div>
+                                        <button type="submit">Search</button>
+                                    </form>
+                                    <button id="watchZoneRefresh" class="refresh-button" type="button" aria-label="Refresh this catalog"><i class="fas fa-sync-alt" aria-hidden="true"></i><span>Refresh</span></button>
+                                </div>
+                            </div>
+                            <div id="watchZoneStatus" class="watchzone-status" role="status" aria-live="polite"></div>
+                            <div id="watchZoneHome" class="watchzone-home">
+                                <section id="watchZoneHero" class="watchzone-hero"></section>
+                                <section id="watchZoneContinueSection" class="watchzone-shelf" hidden>
+                                    <div class="watchzone-shelf-heading"><div><span class="watchzone-eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Continue Watching</h2></div><button id="watchZoneContinueClear" class="watchzone-view-all" type="button">Clear all</button></div>
+                                    <div id="watchZoneContinue" class="watchzone-card-row watchzone-continue-row"></div>
+                                </section>
+                                <section id="watchZonePrimarySection" class="watchzone-shelf">
+                                    <div class="watchzone-shelf-heading"><div><span class="watchzone-eyebrow" id="watchZonePrimaryEyebrow">POPULAR RIGHT NOW</span><h2 id="watchZonePrimaryTitle">Trending Movies & Shows</h2></div><button id="watchZonePrimaryViewAll" class="watchzone-view-all" type="button">View All <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div>
+                                    <div id="watchZonePrimary" class="watchzone-card-row"></div>
+                                </section>
+                                <section id="watchZoneSecondarySection" class="watchzone-shelf">
+                                    <div class="watchzone-shelf-heading"><div><span class="watchzone-eyebrow" id="watchZoneSecondaryEyebrow">FIND YOUR NEXT WATCH</span><h2 id="watchZoneSecondaryTitle">Popular Movies</h2></div><button id="watchZoneSecondaryViewAll" class="watchzone-view-all" type="button">View All <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div>
+                                    <div id="watchZoneSecondary" class="watchzone-card-row"></div>
+                                </section>
+                            </div>
+                            <div id="watchZoneResultsView" class="watchzone-results" hidden>
+                                <div class="watchzone-results-heading"><button id="watchZoneBackHome" class="watchzone-back-button" type="button"><i class="fas fa-arrow-left"></i> Browse</button><div><span id="watchZoneResultsEyebrow" class="watchzone-eyebrow">SEARCH</span><h2 id="watchZoneResultsTitle">Results</h2></div></div>
+                                <div id="watchZoneResultsGrid" class="watchzone-card-grid"></div>
+                                <div id="watchZoneResultsMore" class="watchzone-results-more" hidden><span id="watchZoneResultsMoreStatus" aria-live="polite"></span><button id="watchZoneResultsLoadMore" class="watchzone-secondary-button" type="button"><i class="fas fa-plus" aria-hidden="true"></i> Load more</button></div>
+                            </div>
+                            <div id="watchZonePlaybackView" class="watchzone-player-page" hidden>
+                                <header class="watchzone-playback-header">
+                                    <button id="watchZonePlayerBack" class="watchzone-back-button" type="button"><i class="fas fa-arrow-left"></i><span>Back</span></button>
+                                    <div class="watchzone-playback-title"><span class="watchzone-eyebrow" id="watchZonePlayerEyebrow">NOW PLAYING</span><h2 id="watchZonePlayerTitle">Watch Zone</h2><p id="watchZonePlayerSubtitle"></p></div>
+                                    <div id="watchZoneSourceWrap" class="watchzone-source-wrap" hidden><span>Source</span><div id="watchZoneSourceDropdown" class="watchzone-dropdown gamelist-sort-select"><button id="watchZoneSourceButton" class="gamelist-sort-button" type="button" aria-label="Playback source" aria-haspopup="listbox" aria-expanded="false" aria-controls="watchZoneSourceOptions" disabled><span id="watchZoneSourceLabel">No source</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="watchZoneSourceOptions" class="gamelist-sort-options" role="listbox" aria-label="Playback source options"></div><select id="watchZoneSourceSelect" aria-label="Playback source" disabled hidden></select></div></div>
+                                    <div id="watchZoneVariantWrap" class="watchzone-variant-wrap" hidden><span>Stream</span><div id="watchZoneVariantDropdown" class="watchzone-dropdown gamelist-sort-select"><button id="watchZoneVariantButton" class="gamelist-sort-button" type="button" aria-label="Stream proxy format" aria-haspopup="listbox" aria-expanded="false" aria-controls="watchZoneVariantOptions" disabled><span id="watchZoneVariantLabel">Proxy URL</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="watchZoneVariantOptions" class="gamelist-sort-options" role="listbox" aria-label="Proxy format options"></div><select id="watchZoneVariantSelect" aria-label="Stream proxy format" disabled hidden></select></div></div>
+                                    <button id="watchZonePlayerRefresh" class="watchzone-icon-button" type="button" aria-label="Reload this source"><i class="fas fa-rotate-right"></i></button>
+                                </header>
+                                <div id="watchZonePlaybackStatus" class="watchzone-playback-status" role="status" aria-live="polite"></div>
+                                <div id="watchZoneSeriesControls" class="watchzone-series-controls" hidden>
+                                    <div id="watchZoneSeasonWrap" class="watchzone-control-wrap" hidden><span>Season</span><div id="watchZoneSeasonDropdown" class="watchzone-dropdown gamelist-sort-select"><button id="watchZoneSeasonButton" class="gamelist-sort-button" type="button" aria-label="Season" aria-haspopup="listbox" aria-expanded="false" aria-controls="watchZoneSeasonOptions"><span id="watchZoneSeasonLabel">Season 1</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="watchZoneSeasonOptions" class="gamelist-sort-options" role="listbox" aria-label="Season options"></div><select id="watchZoneSeasonSelect" aria-label="Season" hidden></select></div></div>
+                                    <div id="watchZoneAudioWrap" class="watchzone-control-wrap" hidden><span>Audio</span><div id="watchZoneAudioDropdown" class="watchzone-dropdown gamelist-sort-select"><button id="watchZoneAudioButton" class="gamelist-sort-button" type="button" aria-label="Audio" aria-haspopup="listbox" aria-expanded="false" aria-controls="watchZoneAudioOptions"><span id="watchZoneAudioLabel">Subbed</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><div id="watchZoneAudioOptions" class="gamelist-sort-options" role="listbox" aria-label="Audio options"></div><select id="watchZoneAudioSelect" aria-label="Audio" hidden><option value="sub">Subbed</option><option value="dub">Dubbed</option></select></div></div>
+                                </div>
+                                <div id="watchZonePlayerHost" class="watchzone-player-slot"><div class="watchzone-player-placeholder"><div><i class="fas fa-circle-play"></i>Starting playback…</div></div></div>
+                                <section id="watchZoneEpisodeBrowser" class="watchzone-episode-browser" hidden aria-label="Episode guide">
+                                    <div class="watchzone-episode-toolbar">
+                                        <div class="watchzone-episode-heading"><span class="watchzone-eyebrow">EPISODE GUIDE</span><h3>Episodes <span id="watchZoneEpisodeCount"></span></h3></div>
+                                        <label class="watchzone-episode-search"><i class="fas fa-search" aria-hidden="true"></i><input id="watchZoneEpisodeSearch" type="search" placeholder="Search episodes or enter a number" aria-label="Search episodes"></label>
+                                    </div>
+                                    <div id="watchZoneEpisodeList" class="watchzone-episode-list" role="list"></div>
+                                    <nav id="watchZoneEpisodePagination" class="watchzone-episode-pagination" aria-label="Episode pages" hidden>
+                                        <button id="watchZoneEpisodePagePrevious" class="watchzone-icon-button" type="button">Previous</button>
+                                        <span id="watchZoneEpisodePageInfo" aria-live="polite"></span>
+                                        <button id="watchZoneEpisodePageNext" class="watchzone-icon-button" type="button">Next</button>
+                                    </nav>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Watch Zone is Locked</p>
+                            <p>Upgrade to Premium to watch movies, anime, and channels.</p>
+                        </div>
+                    </div>
+
+                    <!-- Library View -->
+                    <div id="libraryView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <input type="search" id="librarySearchView" class="search-input" placeholder="Search library by name or AppID...">
+                                <div class="library-action-legend" aria-label="Steam Library action legend">
+                                    <span class="library-action-legend-item"><i class="fas fa-bolt"></i><span>Bypass</span></span>
+                                    <span class="library-action-legend-item"><i class="fas fa-rocket"></i><span>Online Fix</span></span>
+                                    <span class="library-action-legend-item"><i class="fas fa-puzzle-piece"></i><span>DLC</span></span>
+                                </div>
+                                <button id="librarySelectToggleButton" class="refresh-button select-toggle-button"><i class="fas fa-check-square"></i> Multi Select</button>
+                                <button id="libraryRefreshButton" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div id="libraryBulkBar" class="controls-bar" style="display: none;">
+                                <button id="librarySelectAllButton" class="refresh-button"><i class="fas fa-check-double"></i> Select All</button>
+                                <button id="libraryDeleteSelectedButton" class="refresh-button delete-selected-button" disabled><i class="fas fa-trash-alt"></i> Delete Selected (0)</button>
+                                <button id="libraryCancelSelectButton" class="refresh-button cancel-select-button"><i class="fas fa-times"></i> Cancel</button>
+                            </div>
+                            <div id="libraryStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="libraryGameList" class="game-list-container">
+                                <!-- Game items will be populated here by renderer.js -->
+                            </div>
+                            <div id="steamCfgBar" class="steam-cfg-bar">
+                                <span class="steam-cfg-label"><i class="fas fa-ban"></i> Disable Steam Update</span>
+                                <label class="cfg-switch"><input type="checkbox" id="steamCfgToggle"><span class="cfg-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Steam Library is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Patch Hub View -->
+                    <div id="steamlessView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <input type="search" id="steamlessSearchView" class="search-input" placeholder="Search installed games by name or AppID...">
+                                <button id="steamlessSearchButton" class="gamelist-search-button">Search</button>
+                                <button id="steamlessRefreshButton" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div id="steamlessStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="steamlessGameList" class="game-list-container">
+                                <!-- Patch Hub game rows populated by renderer.js -->
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Patch Hub is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Update View -->
+                    <div id="updateView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <input type="search" id="updateSearchView" class="search-input" placeholder="Search by name or AppID...">
+                                <button id="updateRefreshButton" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div id="updateStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="updateGameList" class="game-list-container">
+                                <!-- Game items will be populated here by renderer.js -->
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Update is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- Online View -->
+                    <div id="onlineView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <!-- CHANGE THE PLACEHOLDER TEXT IN THIS INPUT -->
+                                <input type="search" id="onlineSearchView" class="search-input" placeholder="Search library by name or AppID...">
+                                <button id="onlineRefreshButton" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div id="onlineStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="onlineGameList" class="game-list-container">
+                                <!-- Game items will be populated here by renderer.js -->
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Online is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+                        
+                    <!-- DLC View -->
+                    <div id="dlcView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="controls-bar">
+                                <input type="search" id="dlcSearchView" class="search-input" placeholder="Search installed games by name or AppID...">
+                                <button id="dlcSearchButton" class="gamelist-search-button">Search</button>
+                                <button id="dlcRefreshButton" class="refresh-button"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <div id="dlcStatusMessage" class="list-status-message" style="display: none;"></div>
+                            <div id="dlcGameList" class="game-list-container">
+                                <!-- DLC game cards populated by renderer.js -->
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>DLC Adder is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ DRM UNLOCKER VIEW ============ -->
+                    <div id="drmView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                        <div class="drm-layout">
+                            <div class="drm-left">
+                            <div class="mode-selector-container glass-card">
+                                
+                                <div class="mode-toggle-group" id="drmModeGroup">
+                                    <button type="button" class="mode-toggle-btn" data-mode="drm"><i class="fas fa-lock"></i><span>DRM</span></button>
+                                    <button type="button" class="mode-toggle-btn" data-mode="disable-update"><i class="fas fa-ban"></i><span>Disable Update</span></button>
+                                    <button type="button" class="mode-toggle-btn active" data-mode="steam"><i class="fas fa-shield-alt"></i><span>Denuvo</span></button>
+                                    <button type="button" class="mode-toggle-btn" data-mode="ubisoft"><i class="fas fa-hurricane"></i><span>Ubisoft</span></button>
+                                    <button type="button" class="mode-toggle-btn" data-mode="ea"><i class="fas fa-futbol"></i><span>EA Sports</span></button>
+                                </div>
+                            </div>
+
+                            <div id="drmPathSection" class="path-section glass-card">
+                                <div class="section-header"><i class="fas fa-folder-tree"></i><span>Game Location</span></div>
+                                <div class="path-and-button">
+                                    <input type="text" id="drmPathInput" placeholder="Select Game Location..." readonly>
+                                    <button id="drmSelectBtn" class="icon-button glass-btn"><i class="fas fa-folder-open"></i></button>
+                                    <button id="drmOpenFolderBtn" class="icon-button glass-btn secondary"><i class="fas fa-external-link-alt"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Steam / Denuvo -->
+                            <div id="drm-view-steam" class="drm-mode-view">
+                                <div class="control-section glass-card">
+                                    <div class="section-header"><i class="fas fa-cog"></i><span>Patch Settings</span></div>
+                                    <div class="control-row">
+                                        <div class="mode-toggle-group steam-toggle-group" id="drmSteamVersionGroup">
+                                            <button type="button" class="mode-toggle-btn active" data-version="1"><i class="fas fa-flask"></i><span>Experimental</span></button>
+                                            <button type="button" class="mode-toggle-btn" data-version="2"><i class="fas fa-snowflake"></i><span>Coldloader</span></button>
+                                            <button type="button" class="mode-toggle-btn" data-version="3"><i class="fas fa-ghost"></i><span>Reyaloader</span></button>
+                                            <button type="button" class="mode-toggle-btn" data-version="4"><i class="fas fa-skull"></i><span>CapCom</span></button>
+                                        </div>
+                                        <button id="drmSteamBypassBtn" class="icon-button primary action-btn glow-btn"><span>Patch</span><i class="fas fa-bolt"></i></button>
+                                    </div>
+                                </div>
+                                <div id="drmDropZone" class="glass-card drm-drop">
+                                    <div class="drop-icon"><i class="fas fa-file-shield"></i></div>
+                                    <p>Drop <strong>.reya</strong> or <strong>.zip</strong> file here</p>
+                                    <span class="subtext">(Or click to browse)</span>
+                                </div>
+                            </div>
+
+                            <!-- DRM Games (moved from Game Library) -->
+                            <div id="drm-view-drm" class="drm-mode-view" style="display:none;">
+                                <div class="drm-games-search"><i class="fas fa-search"></i><input type="search" id="drmGamesSearch" placeholder="Search DRM games..."></div>
+                                <div id="drmGamesStatus" class="gl-status"><div class="loader"></div><p>Loading DRM games...</p></div>
+                                <div id="drmGamesGrid" class="drm-games-grid"></div>
+                            </div>
+
+                            <!-- Ubisoft -->
+                            <div id="drm-view-ubisoft" class="drm-mode-view" style="display:none;">
+                                <div class="control-section glass-card">
+                                    <div class="section-header"><i class="fas fa-hurricane"></i><span>Ubisoft Patch</span></div>
+                                    <div class="control-row game-selection-row">
+                                        <div class="drm-hint-inline"><i class="fas fa-info-circle"></i> Generic Ubisoft Unlocker</div>
+                                        <button id="drmUbiBypassBtn" class="icon-button primary action-btn glow-btn"><span>Patch</span><i class="fas fa-download"></i></button>
+                                        <button id="drmUbiPlayBtn" class="icon-button play-btn action-btn"><i class="fas fa-play"></i><span>Generate</span></button>
+                                    </div>
+                                </div>
+                                <div class="glass-card drm-token-card">
+                                    <div class="section-header"><i class="fas fa-key"></i> Token Management</div>
+                                    <div class="drm-log-container">
+                                        <button id="drmUbiCopyBtn" class="copy-btn-overlay glass-btn"><i class="fas fa-copy"></i></button>
+                                        <textarea id="drmUbiLogText" class="special-log-text" readonly placeholder="Waiting for data generation..."></textarea>
+                                        <button id="drmUbiDownloadBtn" class="icon-button secondary action-btn full-width glass-btn" disabled><i class="fas fa-file-download"></i> Save Ticket</button>
+                                    </div>
+                                    <div id="drmUbiDropZone" class="mini-drop-zone"><i class="fas fa-file-import"></i><span>Drop <strong>activation.reya</strong> or <strong>.zip</strong> file or click to browse</span></div>
+                                </div>
+                                <div class="info-box glass-card"><div class="info-icon"><i class="fas fa-exclamation-triangle"></i></div><span>Please select the game's main .exe file.</span></div>
+                            </div>
+
+                            <!-- EA Sports -->
+                            <div id="drm-view-ea" class="drm-mode-view" style="display:none;">
+                                <div class="control-section glass-card">
+                                    <div class="section-header"><i class="fas fa-futbol"></i><span>Game Selection</span></div>
+                                    <div class="control-row game-selection-row">
+                                        <select id="drmEaGameSelect" class="custom-select">
+                                            <option value="fc25">EA SPORTS FC™ 25</option>
+                                            <option value="fc26">EA SPORTS FC™ 26</option>
+                                            <option value="NFL26">EA SPORTS™ Madden NFL 26</option>
+                                            <option value="nfs_unbound">EA Need for Speed™ Unbound</option>
+                                        </select>
+                                        <button id="drmEaBypassBtn" class="icon-button primary action-btn glow-btn"><span>Patch</span><i class="fas fa-download"></i></button>
+                                        <button id="drmEaPlayBtn" class="icon-button play-btn action-btn"><i class="fas fa-play"></i><span>Generate</span></button>
+                                    </div>
+                                </div>
+                                <div class="glass-card drm-token-card">
+                                    <div class="section-header"><i class="fas fa-key"></i> Token Management</div>
+                                    <div class="drm-log-container">
+                                        <button id="drmEaCopyBtn" class="copy-btn-overlay glass-btn"><i class="fas fa-copy"></i></button>
+                                        <textarea id="drmEaLogText" class="special-log-text" readonly placeholder="Waiting for data generation..."></textarea>
+                                        <button id="drmEaDownloadBtn" class="icon-button secondary action-btn full-width glass-btn" disabled><i class="fas fa-file-download"></i> Save Ticket</button>
+                                    </div>
+                                    <div id="drmEaDropZone" class="mini-drop-zone"><i class="fas fa-file-import"></i><span>Drop <strong>activation.reya</strong> or <strong>.zip</strong> file or click to browse</span></div>
+                                </div>
+                                <div class="info-box glass-card"><div class="info-icon"><i class="fas fa-exclamation-triangle"></i></div><span>Please select the game's main .exe file.</span></div>
+                            </div>
+
+                            <!-- Disable Update -->
+                            <div id="drm-view-disable-update" class="drm-mode-view" style="display:none;">
+                                <div class="control-section glass-card">
+                                    <div class="section-header"><i class="fas fa-ban"></i><span>Disable Update</span>
+                                        <button id="drmDuRefresh" class="icon-button glass-btn du-refresh"><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+                                    <div class="du-hint"><i class="fas fa-info-circle"></i><span>Toggle <strong>ON</strong> locks the game so Steam won't update it. <strong>OFF</strong> allows updates.</span></div>
+                                    <div class="du-search"><i class="fas fa-search"></i><input type="search" id="drmDuSearch" placeholder="Search by name or AppID..."></div>
+                                    <div id="drmDuList" class="disable-update-list"></div>
+                                </div>
+                            </div>
+
+                            </div><!-- /drm-left -->
+                            <div class="drm-right">
+                            <div id="drmStatusArea" class="glass-card drm-status">
+                                <div class="status-header"><i class="fas fa-terminal"></i><span>Console Output</span><div class="status-indicator"></div></div>
+                                <div class="status-content" id="drmStatusContent"></div>
+                            </div>
+
+                            <div class="drm-footer">
+                                <span id="drmWubBtn" class="footer-link glass-btn"><i class="fas fa-shield-alt"></i><span>Windows Disabler</span></span>
+                            </div>
+                            </div><!-- /drm-right -->
+                        </div><!-- /drm-layout -->
+                        </div><!-- /view-actual-content -->
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Manual Activation is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ PRODUCT LIBRARY VIEW ============ -->
+                    <div id="productLibraryView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="gl-wrap">
+                                <div class="gl-controls">
+                                    <div class="gl-nav" id="plNav">
+                                        <button class="gl-nav-btn active" data-cat="Windows OS"><i class="fab fa-windows"></i><span>Windows</span></button>
+                                        <button class="gl-nav-btn" data-cat="Steam OS"><i class="fab fa-steam"></i><span>Steam OS</span></button>
+                                        <button class="gl-nav-btn" data-cat="Android"><i class="fab fa-android"></i><span>Android</span></button>
+                                    </div>
+                                    <div class="gl-searchrow">
+                                        <div class="gl-search"><i class="fas fa-search"></i><input type="text" id="plSearch" placeholder="Search…"></div>
+                                        <button id="plRefresh" class="gl-refresh"><i class="fas fa-sync-alt"></i></button>
+                                    </div>
+                                </div>
+                                <div class="gl-scroll">
+                                    <div id="plStatus" class="gl-status"><div class="loader"></div><p>Loading products…</p></div>
+                                    <div id="plGrid" class="gl-grid software"></div>
+                                </div>
+                            </div>
+                            <div id="plModal" class="gz-modal-overlay" style="display:none;">
+                                <div class="gz-modal-content">
+                                    <button class="gz-modal-close" id="plModalClose"><i class="fas fa-times"></i></button>
+                                    <h2 id="plModalTitle"></h2>
+                                    <p id="plModalDesc"></p>
+                                    <div class="gz-modal-actions">
+                                        <button id="plSaveBtn" class="gz-action-btn"><i class="fas fa-download"></i> SAVE</button>
+                                        <div id="plProgressContainer" style="display:none;">
+                                            <div class="gz-progress"><div class="gz-progress-inner" id="plProgressInner"></div></div>
+                                            <span id="plProgressText">Waiting…</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Product Library is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ GAME LIBRARY VIEW ============ -->
+                    <div id="gameLibraryView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="gl-wrap">
+                                <div class="gl-controls">
+                                    <div class="gl-search full"><i class="fas fa-search"></i><input type="text" id="glSearchInput" placeholder="Search Switch games..."></div>
+                                </div>
+                                <div class="gl-scroll">
+                                    <div id="glStatusMessage" class="gl-status"><div class="loader"></div><p>Loading games...</p></div>
+                                    <div id="glGameGrid" class="gl-grid"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Switch Games is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ SOFTWARE LIBRARY VIEW ============ -->
+                    <div id="softwareLibraryView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="gl-wrap">
+                                <div class="gl-controls">
+                                    <div class="gl-search full"><i class="fas fa-search"></i><input type="text" id="swSearchInput" placeholder="Search software..."></div>
+                                    <button id="swRefresh" class="gl-refresh"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+                                <div class="gl-scroll">
+                                    <div id="swStatusMessage" class="gl-status"><div class="loader"></div><p>Loading software...</p></div>
+                                    <div id="swGrid" class="gl-grid software"></div>
+                                </div>
+                            </div>
+                            <div id="swDownloadModal" class="gz-modal-overlay" style="display:none;">
+                                <div class="gz-modal-content">
+                                    <button class="gz-modal-close" id="swModalClose"><i class="fas fa-times"></i></button>
+                                    <h2 id="swModalTitle"></h2>
+                                    <p id="swModalDesc"></p>
+                                    <div class="gz-modal-actions">
+                                        <button id="swSaveBtn" class="gz-action-btn"><i class="fas fa-download"></i> SAVE</button>
+                                        <div id="swProgressContainer" style="display:none;">
+                                            <div class="gz-progress"><div class="gz-progress-inner" id="swProgressInner"></div></div>
+                                            <span id="swProgressText">Waiting...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Software Library is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ WEBSITES VIEW (premium) ============ -->
+                    <div id="websitesView" class="content-view">
+                        <div class="view-actual-content" style="display: none;">
+                            <div class="gl-wrap">
+                                <div class="gl-controls">
+                                    <div class="gl-search full"><i class="fas fa-search"></i><input type="text" id="webSearchInput" placeholder="Search websites..."></div>
+                                    <button id="webRefresh" class="gl-refresh"><i class="fas fa-sync-alt"></i></button>
+                                </div>
+                                <div class="gl-scroll">
+                                    <div id="webStatusMessage" class="gl-status"><div class="loader"></div><p>Loading websites...</p></div>
+                                    <div id="webList" class="web-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="premium-lock-message" style="display: none;">
+                            <i class="fas fa-lock fa-3x"></i>
+                            <p>Discover is Locked</p>
+                            <p>Upgrade now to get exclusive access</p>
+                        </div>
+                    </div>
+
+                    <!-- ============ HELP VIEW ============ -->
+                    <div id="helpView" class="content-view">
+                        <div class="home-wrap">
+                            <div class="home-section-title"><i class="fas fa-circle-question"></i> User Guide</div>
+                            <div class="help-filters" id="helpFilters">
+                                <button class="help-filter active" data-category="guidelines">Windows</button>
+                                <button class="help-filter" data-category="fixes">Steam OS</button>
+                                <button class="help-filter" data-category="tutorials">Others</button>
+                            </div>
+                            <div class="help-search"><i class="fas fa-search"></i><input type="search" id="helpSearch" placeholder="Search guides…"></div>
+                            <div id="helpGrid" class="help-grid"></div>
+                        </div>
+                        <!-- In-app PDF viewer modal -->
+                        <div id="helpPdfModal" class="pdf-modal-overlay" style="display:none;">
+                            <div class="pdf-modal-content">
+                                <div class="pdf-modal-header">
+                                    <span class="pdf-modal-title"><i id="pdfModalIcon" class="fas fa-file-pdf"></i> <span id="pdfModalTitleText">DRM Written Instructions</span></span>
+                                    <button id="helpPdfClose" class="pdf-modal-close"><i class="fas fa-times"></i></button>
+                                </div>
+                                <div class="pdf-modal-body">
+                                    <div id="helpPdfLoading" class="pdf-loading"><div class="loader"></div><p>Loading…</p></div>
+                                    <div id="helpPdfError" class="pdf-error" style="display:none;"><i class="fas fa-triangle-exclamation"></i><p>Couldn't load this file. Check your connection and try again.</p></div>
+                                    <iframe id="helpPdfFrame" class="pdf-frame"></iframe>
+                                    <video id="helpVideo" class="pdf-video" controls playsinline style="display:none;"></video>
+                                    <img id="helpImage" class="pdf-image" style="display:none;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============ MARKETPLACE VIEW ============ -->
+                    <div id="marketplaceView" class="content-view">
+                        <div class="home-wrap">
+                            <div class="cc-tabs" id="ccTabs">
+                                <button class="cc-tab active" data-tab="ccProducts">Products and Services</button>
+                                <button class="cc-tab" data-tab="ccOthers">Others</button>
+                            </div>
+
+                            <!-- Products & Services tab -->
+                            <div id="ccProducts" class="cc-panel active">
+                                <div id="productGrid" class="product-grid"></div>
+                            </div>
+
+                            <!-- Others tab (same layout as Products) -->
+                            <div id="ccOthers" class="cc-panel">
+                                <div id="othersGrid" class="product-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============ REVIEWS VIEW ============ -->
+                    <div id="reviewsView" class="content-view">
+                        <div class="home-wrap">
+                            <div class="home-section-title"><i class="fas fa-star"></i> Reviews</div>
+                            <div id="reviewsScroll" class="gl-scroll" style="width: 100%; height: 100%; padding-top: 6px;">
+                                <div id="reviewsStatusMessage" class="gl-status"><div class="loader"></div><p>Loading reviews...</p></div>
+                                <div id="reviewsGrid" class="product-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============ CONTACT VIEW ============ -->
+                    <div id="contactView" class="content-view">
+                        <div class="home-wrap">
+                            <div class="home-section-title"><i class="fas fa-headset"></i> Contact Us</div>
+                            <div id="contactGrid" class="contact-grid"></div>
+                            <section class="contact-distributors">
+                                <h2 class="home-section-title">Authorized Distributors</h2>
+                                <div id="contactDistributorViewport" class="contact-distributor-viewport" tabindex="0" aria-label="Authorized distributors">
+                                    <div id="contactDistributorTrack" class="contact-distributor-track"><div id="contactDistributorGroup" class="contact-distributor-group"></div></div>
+                                </div>
+                                <p id="contactDistributorStatus" class="ann-state">Loading distributors…</p>
+                            </section>
+                            <div id="contactDiscord" class="contact-discord-wrap"></div>
+                        </div>
+                    </div>
+
+                    <!-- Settings View -->
+                    <div id="settingsView" class="content-view">
+                        <div class="settings-section">
+                            <label>Save Location (for ZIP downloads)</label>
+                            <div class="path-and-button">
+                                <input type="text" id="currentSavePathInput" placeholder="Detecting..." readonly>
+                                <button id="setSaveLocationButton" class="icon-button save-location-button-yellow"><i class="fas fa-folder-open"></i> Select</button>
+                            </div>
+                        </div>
+
+                        <div id="autoPlaceToggleContainer" class="settings-section">
+                            <div class="toggle-switch-container">
+                                <span class="toggle-label">Auto-Save Steam</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoPlaceToggle">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="dlcToggleContainer" class="settings-section">
+                            <div class="toggle-switch-container">
+                                <span class="toggle-label">DLC Unlocker (Premium)</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dlcModeToggle">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="unlockGameToggleContainer" class="settings-section">
+                            <div class="toggle-switch-container">
+                                <span class="toggle-label">Game Mode</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="unlockGameToggle">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="advancedSteamtoolsManagementContainer" class="settings-section">
+                             <label>Advanced Management (Premium)</label>
+                             <div class="button-row-advanced">
+                                <button id="openSteamConfigButton" class="standard-button"><i class="fas fa-cogs"></i> Open Config</button>
+                                <button id="wipeSteamtoolsButton" class="standard-button delete-button-red"><i class="fas fa-exclamation-triangle"></i> Wipe Data</button>
+                                <button id="fixSteamtoolsButton" class="standard-button"><i class="fas fa-tools"></i> Fix Tools</button>
+                             </div>
+                        </div>
+                        <div id="temporaryFixContainer" class="settings-section">
+    <label>Temporary Fix</label>
+    <div class="button-row-advanced">
+        <button id="oldSteamButton" class="standard-button save-location-button-yellow"><i class="fas fa-history"></i> Install Steam 32bit</button>
+        <button id="removeOldSteamButton" class="standard-button delete-button-red"><i class="fas fa-sync-alt"></i> Remove Steam 32bit</button>
+    </div>
+</div>
+                    </div>
+                    
+                    <!-- Live Chat View -->
+                    <div id="liveChatView" class="content-view">
+                        <!-- Custom Name Prompt for Free Users -->
+                        <div id="chatNamePromptContainer" style="display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 15px; padding: 30px; background: #111115; border-radius: 8px; border: 1px solid #2a2a30; max-width: 400px; margin: 50px auto;">
+                            <i class="fas fa-user-tag" style="font-size: 3rem; color: var(--accent-color);"></i>
+                            <h3 style="margin: 0; color: #fff;">Enter Your Display Name</h3>
+                            <p style="margin: 0; font-size: 0.9em; color: #888; text-align: center;">Choose a name to identify yourself in the support chat.</p>
+                            <input type="text" id="chatNameInput" class="search-input" placeholder="Your Name" style="width: 100%; text-align: center;">
+                            <button id="chatNameSubmitBtn" class="standard-button steam-action-button-blue" style="width: 100%;">START CHAT</button>
+                        </div>
+
+                        <div id="chatMainWrapper" class="view-actual-content" style="display: flex; flex-direction: column; height: 100%;">
+                            <div class="chat-header">
+                                <h2 style="font-size: 1.05rem; display: flex; align-items: center; gap: 7px; margin: 0;"><i class="fas fa-comments" style="font-size: 0.95rem;"></i> Live Chat Support</h2>
+                                <p id="chatTypingIndicator" style="font-size: 0.9em; color: #888; height: 20px;"></p>
+                            </div>
+                            <div id="appChatMessages" class="chat-messages" style="flex: 1; overflow-y: auto; padding: 15px; background: #1a1a1e; border-radius: 8px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px;">
+                                <!-- Messages -->
+                            </div>
+                            <!-- Attachment Badge -->
+                            <div id="chatAttachmentBadge" style="display: none; align-items: center; gap: 8px; background: #222226; border: 1px solid #333; padding: 6px 12px; border-radius: 4px; font-size: 0.85em; margin-bottom: 8px; align-self: flex-start; color: #fff;">
+                                <i class="fas fa-paperclip" style="color: var(--accent-color);"></i>
+                                <span id="chatAttachmentName" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                                <i id="chatAttachmentRemove" class="fas fa-times" style="cursor: pointer; color: #888; margin-left: 5px;"></i>
+                            </div>
+                            <!-- Quick Help (expands upward) -->
+                            <div id="chatHelpWrap" class="chat-help-wrap">
+                                <div id="chatHelpPanel" class="chat-help-panel"></div>
+                                <button id="chatHelpToggle" class="chat-help-toggle" type="button">
+                                    <span class="chat-help-label"><i class="fas fa-circle-question"></i> <span id="chatHelpTitle">Do you need help?</span></span>
+                                    <i class="fas fa-chevron-up chat-help-caret"></i>
+                                </button>
+                            </div>
+                            <div class="chat-input-area" style="display: flex; gap: 10px;">
+                                <input type="file" id="appChatFileInput" style="display: none;">
+                                <button id="chatPaymentBtn" class="standard-button" style="width: auto; padding: 10px 15px; white-space: nowrap;"><i class="fas fa-qrcode"></i> Pay</button>
+                                <button id="appChatAttachBtn" class="standard-button" style="width: auto; padding: 10px 15px;"><i class="fas fa-paperclip"></i></button>
+                                <input type="text" id="appChatTextInput" class="search-input" placeholder="Type a message..." style="flex: 1;">
+                                <button id="appChatSendBtn" class="standard-button steam-action-button-blue" style="width: auto; padding: 10px 20px;"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- NEW FOOTER FOR THE CONTENT AREA -->
+<div id="contentAreaFooter" style="display:none;">
+    <button id="vpnFooterButton" class="icon-button main-icon-button steam-fix-button-red"><i class="fas fa-shield-alt"></i> VPN</button>
+    <button id="steamFixFooterButton" class="icon-button main-icon-button steam-fix-button-red"><i class="fas fa-wrench"></i> Steam Fix</button>
+    <button id="stopSteamFooterButton" class="icon-button main-icon-button steam-fix-button-red"><i class="fas fa-stop-circle"></i> Stop Steam</button>
+    <button id="steamActionButton" class="icon-button main-icon-button steam-action-button-blue" style="display: none;"><i class="fab fa-steam"></i> <span id="steamActionButtonText"></span></button>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="glPatchModal" class="gz-modal-overlay" style="display:none;">
+        <div class="gz-modal-content">
+            <button class="gz-modal-close" id="glModalClose"><i class="fas fa-times"></i></button>
+            <h2 id="glModalTitle"></h2>
+            <p id="glModalDesc"></p>
+            <div class="gz-path-sel">
+                <label>Installation Path</label>
+                <div class="gz-input-group">
+                    <input type="text" id="glPathInput" placeholder="Select folder..." readonly>
+                    <button id="glBrowseBtn">Browse</button>
+                </div>
+                <small id="glPathWarn">Select the folder where you want to install/patch.</small>
+            </div>
+            <div class="gz-patch-controls">
+                <div id="glPatchButtons" class="gz-patch-buttons">
+                    <button id="glPatchBtn" class="gz-action-btn" disabled>MANUAL PATCH</button>
+                    <button id="glAutoPatchBtn" class="gz-action-btn gz-secondary-action" disabled>AUTO PATCH</button>
+                </div>
+                <div id="glProgressContainer" style="display:none;">
+                    <div class="gz-progress"><div class="gz-progress-inner" id="glProgressInner"></div></div>
+                    <span id="glProgressText"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="socket.io.js"></script>
+    <script src="./renderer.js"></script>
+    <script src="./steamcard.js"></script>
+    <script src="./drm.js"></script>
+    <script src="./gamelib.js"></script>
+    <script src="./softwarelib.js"></script>
+    <script src="./productlib.js"></script>
+    <script src="./home.js"></script>
+    <script src="./help.js"></script>
+    <script src="./contact.js"></script>
+    <script src="./products.js"></script>
+    <script src="./reviews.js"></script>
+    <script src="./chathelp.js"></script>
+    <script src="./payment.js"></script>
+    <script src="./websites.js"></script>
+
+    <!-- Zone Play Download Modal -->
+    <div id="zonePlayModal" class="gz-modal-overlay" style="display:none;">
+        <div class="gz-modal-content zoneplay-modal-content">
+            <button class="gz-modal-close" id="zonePlayModalClose"><i class="fas fa-times"></i></button>
+            <div class="zoneplay-modal-hero"><img id="zonePlayModalImage" src="udp.ico"></div>
+            <h2 id="zonePlayModalTitle">Zone Play</h2>
+            <p id="zonePlayModalDesc"></p>
+            <div id="zonePlayPathBlock" class="gz-path-sel">
+                <label>Save Location</label>
+                <div class="gz-input-group">
+                    <input type="text" id="zonePlayPathInput" placeholder="Select folder..." readonly>
+                    <button id="zonePlayBrowseBtn">Browse</button>
+                </div>
+            </div>
+            <div id="zonePlayExeBlock" class="gz-path-sel" style="display:none;">
+                <label>Executable</label>
+                <div class="zoneplay-exe-row">
+                    <div id="zonePlayExeSelect" class="gamelist-sort-select zoneplay-exe-select" data-value="">
+                        <button id="zonePlayExeButton" class="gamelist-sort-button" type="button" aria-haspopup="listbox" aria-expanded="false">
+                            <span id="zonePlayExeButtonText">Select executable</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="zonePlayExeOptions" class="gamelist-sort-options zoneplay-exe-options" role="listbox"></div>
+                    </div>
+                    <button id="zonePlayOpenFolderBtn" class="zoneplay-folder-btn" type="button"><i class="fas fa-folder-open"></i></button>
+                </div>
+                <small>Select the game executable found after extraction.</small>
+            </div>
+            <div class="gz-modal-actions">
+                <div id="zonePlayPrimaryButtons" class="gz-patch-buttons">
+                    <button id="zonePlayStartBtn" class="gz-action-btn"><i class="fas fa-download"></i> DOWNLOAD</button>
+                </div>
+                <div id="zonePlayPostButtons" class="gz-patch-buttons" style="display:none;">
+                    <button id="zonePlayDesktopBtn" class="gz-action-btn"><i class="fas fa-desktop"></i> DESKTOP SHORTCUT</button>
+                    <button id="zonePlaySteamBtn" class="gz-action-btn gz-secondary-action"><i class="fab fa-steam"></i> ADD TO STEAM</button>
+                </div>
+                <span id="zonePlayModalStatus" style="display:none;"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="zonePlayStorageModal" class="gz-modal-overlay" style="display:none;">
+        <div class="gz-modal-content zoneplay-storage-modal">
+            <div class="zoneplay-storage-icon"><i class="fas fa-hard-drive"></i></div>
+            <h2>Not Enough Storage</h2>
+            <p id="zonePlayStorageMessage">Zone Play needs more free space before it can download and extract this game.</p>
+            <div class="zoneplay-storage-stats">
+                <div><span>Required</span><strong id="zonePlayStorageRequired">--</strong></div>
+                <div><span>Available</span><strong id="zonePlayStorageAvailable">--</strong></div>
+                <div><span>Package</span><strong id="zonePlayStoragePackage">--</strong></div>
+                <div><span>Extraction Reserve</span><strong id="zonePlayStorageExtract">--</strong></div>
+            </div>
+            <p id="zonePlayStoragePath" class="zoneplay-storage-path"></p>
+            <button id="zonePlayStorageOk" class="gz-action-btn zoneplay-storage-ok">OK</button>
+        </div>
+    </div>
+
+    <script src="./zoneplay.js"></script>
+    <script src="./retroplay.js"></script>
+    <script src="./watchzone.js"></script>
+
+    <!-- Upload Size Warning Modal -->
+    <div id="uploadWarnModal" class="pdf-modal-overlay" style="display:none;">
+        <div class="pdf-modal-content" style="max-width:400px;">
+            <div class="pdf-modal-body" style="padding:26px 24px; display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center;">
+                <div class="upload-warn-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <h2 style="margin:0; font-size:18px; color:var(--text-color);">File Too Large</h2>
+                <p id="uploadWarnText" style="margin:0; font-size:13px; color:var(--text-secondary); line-height:1.5;">The maximum upload size is 100 MB. Please choose a smaller file.</p>
+                <button id="uploadWarnOk" class="standard-button steam-action-button-blue" style="width:auto; margin-top:4px;">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment QR Modal (GCash + PayPal) -->
+    <div id="paymentQrModal" class="pdf-modal-overlay" style="display:none;">
+        <div class="pdf-modal-content" style="max-width:760px; width:90%;">
+            <div class="pdf-modal-header">
+                <span class="pdf-modal-title"><i class="fas fa-qrcode"></i> Payment</span>
+                <button id="paymentQrClose" class="pdf-modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="pdf-modal-body" style="padding:18px; display:flex; flex-direction:column; align-items:center; gap:14px;">
+                <div class="qr-grid">
+                    <div class="qr-block">
+                        <span class="qr-label"><i class="fas fa-mobile-screen-button"></i> GCash</span>
+                        <div class="qr-frame">
+                            <div class="qr-loader"><div class="loader"></div></div>
+                            <img id="gcashQrImg" class="qr-img">
+                        </div>
+                    </div>
+                    <div class="qr-block">
+                        <span class="qr-label"><i class="fab fa-paypal"></i> PayPal</span>
+                        <div class="qr-frame">
+                            <div class="qr-loader"><div class="loader"></div></div>
+                            <img id="paypalQrImg" class="qr-img">
+                        </div>
+                    </div>
+                </div>
+                <p class="payment-note">Scan with GCash or PayPal to pay, then send your receipt in chat — our admin will confirm shortly.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat File Viewer Modal -->
+    <div id="chatFileViewerModal" class="modal" style="display: none; z-index: 10000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: #111115; border: 1px solid #2a2a30; border-radius: 8px; max-width: 90%; max-height: 90%; display: flex; flex-direction: column; padding: 20px; position: relative;">
+            <span id="chatFileViewerClose" style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #888; cursor: pointer;">&times;</span>
+            <h3 style="margin-top: 0; color: #fff;">File Preview</h3>
+            <div id="chatFileViewerContent" style="flex: 1; display: flex; justify-content: center; align-items: center; overflow: auto; min-height: 300px; min-width: 300px;">
+                <!-- Image or iframe -->
+            </div>
+            <div style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="chatFileViewerOpenBrowser" class="standard-button steam-action-button-blue" style="width: auto;"><i class="fas fa-external-link-alt"></i> Open in Browser</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="imagePreviewModal" class="pdf-modal-overlay" style="display:none; z-index:11000;">
+        <div class="pdf-modal-content" style="max-width: 800px; width: 90%; background: rgba(17, 17, 21, 0.95); backdrop-filter: blur(8px); border: 1px solid var(--border-color); padding: 0; position: relative; height: auto;">
+            <button id="imagePreviewClose" class="pdf-modal-close" style="position: absolute; top: 12px; right: 12px; z-index: 10; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></button>
+            <div class="pdf-modal-body" style="padding: 12px; display: flex; justify-content: center; align-items: center; min-height: 200px; position: relative; background: transparent;">
+                <div id="imagePreviewLoader" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(17,17,21,0.5);"><div class="loader"></div></div>
+                <img id="imagePreviewImg" src="" style="max-width: 100%; max-height: 75vh; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); opacity: 0; transition: opacity 0.25s ease; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

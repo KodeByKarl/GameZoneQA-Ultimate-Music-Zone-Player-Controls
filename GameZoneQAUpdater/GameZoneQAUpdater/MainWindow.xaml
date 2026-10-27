@@ -1,0 +1,71 @@
+<Window x:Class="GameZoneQAUpdater.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="GameZoneQA Ultimate Updater"
+        Height="200" Width="460"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="True"
+        Topmost="True"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        FontFamily="Segoe UI"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType">
+
+    <Border Background="#0a0a0a"
+            BorderBrush="#1f1f1f"
+            BorderThickness="1"
+            CornerRadius="8"
+            SnapsToDevicePixels="True">
+        <Border.Effect>
+            <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="0" Opacity="0.6"/>
+        </Border.Effect>
+
+        <Grid Margin="28,22,28,22">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="TitleText"
+                       Text="Updating GameZoneQA Ultimate"
+                       Foreground="#e6e6e6"
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
+
+            <TextBlock x:Name="StatusText"
+                       Grid.Row="1"
+                       Text="Preparing..."
+                       Foreground="#909090"
+                       FontSize="12"
+                       Margin="0,6,0,22"/>
+
+            <Grid x:Name="ProgressTrack"
+                  Grid.Row="2"
+                  Height="3"
+                  VerticalAlignment="Top"
+                  HorizontalAlignment="Stretch">
+                <Border Background="#1a1a1a" CornerRadius="2"/>
+                <Border x:Name="ProgressFill"
+                        Background="#e6e6e6"
+                        CornerRadius="2"
+                        HorizontalAlignment="Left"
+                        Width="0"/>
+            </Grid>
+
+            <TextBlock x:Name="DetailText"
+                       Grid.Row="4"
+                       Text=""
+                       Foreground="#5e5e5e"
+                       FontSize="10"
+                       Margin="0,18,0,0"/>
+        </Grid>
+    </Border>
+</Window>

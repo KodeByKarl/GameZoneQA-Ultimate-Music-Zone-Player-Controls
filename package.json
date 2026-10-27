@@ -1,0 +1,98 @@
+{
+  "name": "GameZoneQA-Ultimate",
+  "version": "4.2.2",
+  "description": "GameZoneQA Ultimate",
+  "main": "start.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "node compile.js",
+    "predist": "node tools/prepare-resolver-runtime.js && node compile.js",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "GameZoneQA",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.12"
+  },
+  "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.2",
+    "adm-zip": "^0.5.10",
+    "bytenode": "^1.5.7",
+    "extract-zip": "^2.0.1",
+    "cheerio": "1.0.0-rc.12",
+    "express": "^4.19.2",
+    "got": "11.8.5",
+    "libsodium-wrappers": "^0.8.4",
+    "morgan": "^1.10.0",
+    "node-machine-id": "^1.1.12",
+    "vdf": "^0.0.2"
+  },
+  "build": {
+    "appId": "com.gamezoneqa.ultimate",
+    "productName": "GameZoneQA Ultimate",
+    "copyright": "Copyright © 2026 GameZoneQA",
+    "compression": "maximum",
+    "directories": {
+      "output": "dist_electron",
+      "buildResources": "build"
+    },
+    "portable": {
+      "unpackDirName": "com.gamezoneqa.ultimate"
+    },
+    "files": [
+      "start.js",
+      "!main.js",
+      "!preload.js",
+      "main.jsc",
+      "preload-loader.js",
+      "preload.jsc",
+      "renderer/**/*",
+      "watch-zone-api/**/*.jsc",
+      "watch-zone-api/movie/fu.wasm",
+      "!renderer/retro-player/emulatorjs/data/cores/**",
+      "package.json",
+      "!scripts/**"
+    ],
+    "extraResources": [
+      {
+        "from": "dll",
+        "to": "dll",
+        "filter": [
+          "steam_api.dll",
+          "steam_api64.dll"
+        ]
+      },
+      {
+        "from": "script",
+        "to": "script"
+      },
+      {
+        "from": "binaries",
+        "to": "binaries"
+      },
+      {
+        "from": "renderer/retro-player/emulatorjs/data/cores",
+        "to": "retro-player/emulatorjs/data/cores",
+        "filter": [
+          "**/*.data",
+          "reports/*.json"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "renderer/udp.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

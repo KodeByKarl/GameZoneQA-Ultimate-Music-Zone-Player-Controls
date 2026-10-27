@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>GameZone Retro Player</title>
+  <link rel="stylesheet" href="player.css">
+  <link rel="stylesheet" href="player-safe-area.css">
+</head>
+<body>
+  <header class="player-bar">
+    <div class="player-brand"><span class="brand-mark">GZ</span><span><strong>RETRO PLAY</strong><small id="gameSubtitle">LOCAL PLAYER</small></span></div>
+    <div class="player-actions">
+      <span class="controller-shortcut-label">Hold Start + Select to return</span>
+      <button class="exit-button" id="exitButton" type="button"><span aria-hidden="true">×</span> Back to library</button>
+    </div>
+  </header>
+  <div class="controller-exit-notice" id="controllerExitNotice" role="status" aria-live="polite" hidden>
+    <span id="controllerExitMessage">Keep holding Start + Select to return to the library</span>
+    <span class="controller-exit-progress"><span id="controllerExitProgress"></span></span>
+  </div>
+  <main class="player-stage">
+    <div class="loading-state" id="loadingState"><span class="loading-mark">GZ</span><strong id="loadingTitle">Preparing your game…</strong><span id="loadingPlatform">Starting the bundled emulator core</span><i></i></div>
+    <div class="error-state" id="errorState" hidden><div class="error-icon">!</div><h1>Could not start this game</h1><p id="errorMessage">The local game file could not be loaded.</p><button class="exit-button" type="button" data-exit>Back to library</button></div>
+    <div id="emulator" class="emulator"></div>
+  </main>
+  <script src="player.js"></script>
+</body>
+</html>

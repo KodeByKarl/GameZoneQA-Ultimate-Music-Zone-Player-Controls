@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Watch Zone Player</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { color-scheme: dark; accent-color: #e11d2a; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; color: #f5f5f5; font: 12px "Segoe UI", sans-serif; }
+    button, select, input { font: inherit; }
+    .player-root { display: flex; width: 100%; height: 100%; flex-direction: column; background: #000; }
+    .player-root.is-app-fullscreen { position: fixed; z-index: 9999; inset: 0; width: 100vw; height: 100vh; }
+    .player-top { display: flex; height: 35px; flex: 0 0 35px; align-items: center; gap: 9px; overflow: hidden; padding: 0 11px; background: #111; border-bottom: 1px solid #252525; transition: height .2s ease,flex-basis .2s ease,padding .2s ease,opacity .2s ease; }
+    .player-top strong { flex: 1; min-width: 40px; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .quality-label { max-width: 190px; overflow: hidden; color: #aaa; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+    .stage { position: relative; display: grid; flex: 1; min-height: 0; overflow: hidden; place-items: center; background: #000; }
+    .stage video, .stage iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; border: 0; background: #000; object-fit: contain; }
+    .stage video { outline: none; }
+    .stage video::cue { color: transparent; background: transparent; text-shadow: none; }
+    .subtitle-overlay { position: absolute; z-index: 2; bottom: var(--caption-bottom,24px); left: 5%; right: 5%; text-align: center; pointer-events: none; color: #fff; font-size: clamp(16px,2.4vmin,32px); font-weight: 600; line-height: 1.2; text-shadow: 0 1px 3px #000,0 0 4px #000; }
+    .subtitle-overlay:empty { display: none; }
+    .subtitle-overlay span { display: inline-block; max-width: 100%; padding: 3px 7px; border-radius: 3px; background: rgba(0,0,0,.65); white-space: pre-line; overflow-wrap: anywhere; }
+    .stage iframe { display: none; }
+    .message { position: absolute; z-index: 2; top: 50%; left: 50%; max-width: 80%; padding: 10px 14px; transform: translate(-50%,-50%); border: 1px solid #333; border-radius: 7px; background: rgba(18,18,18,.92); color: #ddd; text-align: center; line-height: 1.4; pointer-events: none; }
+    .message:empty { display: none; }
+    .stage.has-embed video { display: none; }
+    .stage.has-embed iframe { display: block; }
+    .stage-fullscreen-button { position: absolute; z-index: 4; top: 10px; right: 10px; display: none; width: 38px; height: 38px; place-items: center; color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 8px; background: rgba(12,12,12,.78); cursor: pointer; }
+    .stage-fullscreen-button svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .stage-fullscreen-button:hover { background: rgba(40,40,40,.94); }
+    .stage.has-embed .stage-fullscreen-button { display: grid; }
+    .player-controls { position: absolute; z-index: 3; right: 10px; bottom: 9px; left: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; background: linear-gradient(180deg,rgba(20,20,20,.88),rgba(8,8,8,.96)); box-shadow: 0 4px 18px rgba(0,0,0,.4); transition: opacity .2s ease,transform .2s ease,visibility .2s ease; }
+    .player-controls[hidden], .stage.has-embed .player-controls { display: none; }
+    .player-root.controls-hidden .player-top { height: 0; flex-basis: 0; padding-top: 0; padding-bottom: 0; border: 0; opacity: 0; pointer-events: none; }
+    .player-root.controls-hidden .player-controls { transform: translateY(8px); opacity: 0; visibility: hidden; pointer-events: none; }
+    .player-root.controls-hidden .stage { cursor: none; }
+    .player-controls button { height: 30px; color: #f1f1f1; border: 1px solid #3a3a3a; border-radius: 6px; background: #202020; }
+    .player-controls button { min-width: 34px; padding: 0 9px; cursor: pointer; }
+    .player-controls button svg { display: block; width: 17px; height: 17px; margin: auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .player-controls button svg text { fill: currentColor; stroke: none; font: 700 7px "Segoe UI",sans-serif; }
+    .player-controls button:hover:not(:disabled) { border-color: #b9101d; background: #2a2023; }
+    .player-controls button:focus-visible { outline: 2px solid #e11d2a; outline-offset: 1px; }
+    .player-controls button:disabled { opacity: .5; cursor: default; }
+    .player-controls select[hidden] { display: none !important; }
+    .gamelist-sort-select { position: relative; }
+    .gamelist-sort-button { display: flex; width: 100%; height: 36px; align-items: center; justify-content: space-between; gap: 10px; padding: 0 12px; border: 2px solid #393939; border-radius: 8px; background: #202020; color: #f1f1f1; font: 700 12px "Segoe UI",sans-serif; cursor: pointer; }
+    .gamelist-sort-button span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .gamelist-sort-button:hover, .gamelist-sort-button:focus { border-color: #e11d2a; outline: none; }
+    .gamelist-sort-options { position: absolute; z-index: 20; right: 0; width: 100%; padding: 8px; border: 1px solid #383838; border-radius: 8px; background: #18181b; box-shadow: 0 10px 28px rgba(0,0,0,.55); display: none; }
+    .gamelist-sort-select.open .gamelist-sort-options { display: flex; flex-direction: column; gap: 4px; }
+    .gamelist-sort-option { width: 100%; min-height: 32px; padding: 8px 10px; border: 0; border-radius: 6px; background: transparent; color: #f1f1f1; font: 700 12px "Segoe UI",sans-serif; text-align: left; cursor: pointer; }
+    .gamelist-sort-option:hover, .gamelist-sort-option.active { background: #e11d2a; color: #fff; }
+    .player-select.gamelist-sort-select { z-index: 5; width: auto; min-width: 112px; max-width: 150px; flex: 0 1 150px; }
+    .player-select.gamelist-sort-select.open { z-index: 40; }
+    #displayDropdown.player-select { width: 34px; min-width: 34px; max-width: 34px; flex: 0 0 34px; }
+    #displayDropdown .gamelist-sort-button { padding: 0; justify-content: center; }
+    #displayDropdown .gamelist-sort-button > span > svg { width: 18px; height: 18px; }
+    #displayDropdownLabel { display: none; }
+    .player-select .gamelist-sort-button { height: 30px; padding: 0 8px 0 9px; border-width: 2px; border-radius: 6px; font-size: 11px; }
+    .player-select .gamelist-sort-button:focus-visible { outline: none; }
+    .player-select .gamelist-sort-button:disabled { opacity: .5; cursor: default; }
+    .player-select .gamelist-sort-button:disabled:hover { border-color: #3a3a3a; }
+    .player-controls button.gamelist-sort-button:hover:not(:disabled), .player-controls button.gamelist-sort-button:focus { border-color: #e11d2a; background: #202020; outline: none; }
+    .player-select .gamelist-sort-button > span { display: flex; min-width: 0; align-items: center; gap: 6px; }
+    .player-select .gamelist-sort-button > span > svg { width: 14px; height: 14px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .player-select .gamelist-sort-button > svg { width: 12px; height: 12px; flex: 0 0 auto; fill: none; stroke: #aaa; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s ease; }
+    .player-select.open .gamelist-sort-button > svg { transform: rotate(180deg); }
+    .player-select .gamelist-sort-options { top: auto; right: 0; bottom: calc(100% + 6px); max-height: min(240px, 45vh); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: auto; scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-y; }
+    .player-select .gamelist-sort-options::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    .player-controls button.gamelist-sort-option { flex: 0 0 auto; min-width: 0; height: auto; min-height: 29px; padding: 7px 8px; border: 0; border-radius: 6px; background: transparent; font-size: 11px; pointer-events: auto; user-select: none; }
+    .player-controls button.gamelist-sort-option:hover:not(:disabled), .player-controls button.gamelist-sort-option.active { border-color: transparent; background: #e11d2a; color: #fff; }
+    .transport { display: flex; flex: 0 0 auto; gap: 5px; }
+    .transport button[hidden] { display: none; }
+    .seek-group { display: flex; flex: 1 1 140px; min-width: 115px; align-items: center; gap: 7px; color: #ddd; font-size: 10px; font-variant-numeric: tabular-nums; }
+    .seek-group input { flex: 1; min-width: 40px; height: 18px; margin: 0; accent-color: #e11d2a; cursor: pointer; }
+    .volume-control { display: flex; flex: 0 0 auto; align-items: center; gap: 5px; }
+    .volume-control input { width: 62px; accent-color: #e11d2a; }
+    @media (max-width: 760px) {
+      .player-controls { gap: 5px; padding: 6px; }
+      .player-select.gamelist-sort-select { min-width: 98px; max-width: 128px; flex-basis: 128px; }
+      .volume-control input { width: 42px; }
+      .seek-group { order: -1; flex-basis: 100%; }
+    }
+    @media (max-width: 480px) {
+      .player-top { padding: 0 7px; }
+      .quality-label { display: block; max-width: 112px; font-size: 9px; }
+      .player-controls { right: 5px; bottom: 5px; left: 5px; gap: 4px; padding: 5px; }
+      .player-controls button { min-width: 30px; height: 29px; padding: 0 6px; }
+      .player-select.gamelist-sort-select { min-width: 82px; max-width: 100px; flex-basis: 100px; }
+      .player-select .gamelist-sort-button { height: 29px; padding: 0 5px; font-size: 10px; }
+      .player-select .gamelist-sort-button > span { gap: 4px; }
+      .volume-control input { display: none; }
+      .seek-group { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="playerRoot" class="player-root">
+    <div class="player-top"><strong id="playerTitle">Watch Zone</strong><span id="playerQuality" class="quality-label">Auto quality</span></div>
+    <div id="playerStage" class="stage">
+      <video id="watchVideo" playsinline preload="metadata" crossorigin="anonymous"></video>
+      <div id="subtitleOverlay" class="subtitle-overlay" aria-live="off"></div>
+      <iframe id="watchEmbed" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="origin"></iframe>
+      <div id="playerMessage" class="message">Resolving playback…</div>
+      <button id="stageFullscreen" class="stage-fullscreen-button" type="button" aria-label="Enter player fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      <div id="playerControls" class="player-controls" aria-label="Video controls">
+        <div class="transport">
+          <button id="playerPreviousEpisode" type="button" aria-label="Previous episode" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14m14-14L8 12l11 7z"/></svg></button>
+          <button id="playerBackTen" type="button" aria-label="Back 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10V4m0 0h6M4 4l3.5 3.5A8 8 0 1 1 5 15"/><text x="8.6" y="14.8">10</text></svg></button>
+          <button id="playerToggle" type="button" aria-label="Play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 12 7-12 7z"/></svg></button>
+          <button id="playerForwardTen" type="button" aria-label="Forward 10 seconds"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10V4m0 0h-6m6 0-3.5 3.5A8 8 0 1 0 19 15"/><text x="7.1" y="14.8">10</text></svg></button>
+          <button id="playerNextEpisode" type="button" aria-label="Next episode" hidden disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5v14M5 5l11 7-11 7z"/></svg></button>
+        </div>
+        <div class="seek-group"><span id="playerCurrentTime">0:00</span><input id="playerSeek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek video"><span id="playerDuration">0:00</span></div>
+        <div id="qualityDropdown" class="player-select gamelist-sort-select">
+          <button id="qualityDropdownButton" class="gamelist-sort-button" type="button" aria-label="Video quality" aria-haspopup="listbox" aria-expanded="false" aria-controls="qualityDropdownOptions" disabled><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10m4 0h2M4 12h2m4 0h10M4 18h8m4 0h4"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="18" r="2"/></svg><span id="qualityDropdownLabel">Auto quality</span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div id="qualityDropdownOptions" class="gamelist-sort-options" role="listbox" aria-label="Video quality options"></div>
+          <select id="qualitySelect" aria-label="Video quality" disabled hidden><option value="auto">Auto quality</option></select>
+        </div>
+        <div id="subtitleDropdown" class="player-select gamelist-sort-select">
+          <button id="subtitleDropdownButton" class="gamelist-sort-button" type="button" aria-label="Subtitles" aria-haspopup="listbox" aria-expanded="false" aria-controls="subtitleDropdownOptions" disabled><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h4m2 0h4M7 14h3m2 0h5"/></svg><span id="subtitleDropdownLabel">Subtitles off</span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div id="subtitleDropdownOptions" class="gamelist-sort-options" role="listbox" aria-label="Subtitle options"></div>
+          <select id="subtitleSelect" aria-label="Subtitles" disabled hidden><option value="off">Subtitles off</option></select>
+        </div>
+        <div id="displayDropdown" class="player-select gamelist-sort-select">
+          <button id="displayDropdownButton" class="gamelist-sort-button" type="button" aria-label="Video sizing: Fit. Click to switch to Fill"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h10v6H7z"/></svg><span id="displayDropdownLabel">Fit</span></span></button>
+          <select id="displaySelect" aria-label="Video sizing" hidden><option value="fit" selected>Fit</option><option value="fill">Fill</option><option value="stretch">Stretch</option></select>
+        </div>
+        <div class="volume-control"><button id="playerMute" type="button" aria-label="Mute"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4zM17 9a5 5 0 0 1 0 6m2.5-8.5a8.5 8.5 0 0 1 0 11"/></svg></button><input id="playerVolume" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume"></div>
+        <button id="playerFullscreen" type="button" aria-label="Enter player fullscreen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+  <script src="https://cdn.dashjs.org/v4.7.4/dash.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.7/shaka-player.compiled.js"></script>
+  <script src="./watch-zone-player.js"></script>
+</body>
+</html>

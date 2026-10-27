@@ -1,0 +1,253 @@
+#watchZoneView { min-height: 0; }
+.watchzone-shell { width: 100%; min-height: 100%; display: flex; flex-direction: column; gap: 22px; }
+.watchzone-toolbar { display: flex; align-items: center; justify-content: flex-end; gap: 20px; padding: 2px 0 18px; border-bottom: 1px solid var(--border-color); }
+.watchzone-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex: 1; min-width: 0; }
+.watchzone-mode-tabs { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--secondary-bg); border: 1px solid var(--border-color); border-radius: 10px; }
+.watchzone-actions > .watchzone-mode-tabs { margin-right: auto; max-width: 100%; flex-shrink: 0; }
+.watchzone-actions > .watchzone-tag-wrap { width: 150px; flex: 0 1 150px; }
+.watchzone-actions > .watchzone-search { width: 300px; flex: 0 1 300px; min-width: 180px; margin: 0; }
+.watchzone-mode { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 0 12px; color: var(--text-secondary); background: transparent; border: 0; border-radius: 7px; font: 600 12px var(--font-family); cursor: pointer; transition: .18s ease; }
+.watchzone-mode:hover { color: var(--text-color); background: rgba(255,255,255,.04); }
+.watchzone-mode.active { color: #fff; background: linear-gradient(135deg,var(--accent-color),var(--accent-hover)); box-shadow: 0 3px 12px var(--accent-glow); }
+.watchzone-tag-wrap,.watchzone-variant-wrap { display: flex; flex: 0 1 auto; flex-direction: column; gap: 3px; min-width: 0; color: var(--text-muted-color); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.watchzone-tag-wrap .watchzone-dropdown { width: 100%; min-width: 0; }
+.watchzone-tag-wrap .gamelist-sort-button { height: 36px; padding: 0 9px; font-size: 10px; }
+.watchzone-search { display: flex; align-items: center; gap: 9px; width: 100%; min-width: 0; height: 42px; padding: 0; border: 0; background: transparent; color: var(--text-muted-color); }
+.watchzone-search-input { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; height: 42px; padding: 0 12px; border: 1px solid var(--border-color); border-radius: 9px; background: var(--input-bg); }
+.watchzone-search-input:focus-within { border-color: var(--accent-color); box-shadow: 0 0 0 3px var(--accent-glow); }
+.watchzone-search input { flex: 1; min-width: 0; padding: 0; color: var(--text-color); background: transparent; border: 0; outline: 0; font: 12px var(--font-family); box-shadow: none !important; }
+.watchzone-search input::placeholder { color: var(--text-muted-color); }
+.watchzone-search button { height: 36px; min-height: 36px; padding: 0 12px; flex-shrink: 0; color: #fff; background: var(--accent-color); border: 0; border-radius: 6px; font: 600 11px var(--font-family); cursor: pointer; }
+.watchzone-search button:hover { background: var(--accent-hover); }
+.watchzone-toolbar .refresh-button { display: inline-flex; align-items: center; justify-content: center; width: 36px; min-width: 36px; max-width: 36px; height: 36px; min-height: 36px; padding: 0; flex: 0 0 36px; }
+.watchzone-toolbar .refresh-button i { font-size: 12px; }
+.watchzone-toolbar .refresh-button span { display: none; }
+.watchzone-status { min-height: 0; color: var(--text-secondary); font-size: 12px; }
+.watchzone-status:empty { display: none; }
+.watchzone-status.error { padding: 12px 15px; border: 1px solid rgba(239,68,68,.25); border-radius: 9px; color: #fca5a5; background: rgba(239,68,68,.07); }
+.watchzone-status.loading { color: var(--text-muted-color); }
+.watchzone-home,.watchzone-results,.watchzone-details { display: flex; flex-direction: column; gap: 28px; padding-bottom: 26px; }
+#watchZoneView [hidden] { display: none !important; }
+.watchzone-hero { position: relative; min-height: clamp(250px,33vw,390px); overflow: hidden; display: flex; align-items: flex-end; border: 1px solid var(--secondary-bg); border-radius: 15px; background: #141416; background-position: center 35%; background-size: cover; box-shadow: var(--shadow-lg); }
+.watchzone-hero::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(0deg,rgba(7,7,8,.96) 0%,rgba(7,7,8,.72) 25%,rgba(7,7,8,.28) 59%,rgba(7,7,8,.32) 100%),linear-gradient(90deg,rgba(7,7,8,.52) 0%,transparent 24%,transparent 76%,rgba(7,7,8,.48) 100%),radial-gradient(ellipse at center,transparent 50%,rgba(7,7,8,.2) 100%); box-shadow: inset 0 0 0 2px rgba(7,7,8,.4); pointer-events: none; }
+.watchzone-hero-content { position: relative; z-index: 1; width: min(630px,78%); padding: clamp(22px,4vw,42px); }
+.watchzone-hero-content { padding-bottom: 72px; animation: watchzone-banner-enter .3s ease-out; }
+.watchzone-hero-navigation { position: absolute; z-index: 2; bottom: 16px; right: 18px; display: flex; align-items: center; gap: 6px; }
+.watchzone-hero-navigation button { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.24); border-radius: 50%; background: rgba(12,12,14,.75); color: #fff; cursor: pointer; font: 600 11px var(--font-family); }
+.watchzone-hero-navigation button:hover,.watchzone-hero-navigation button.active { background: var(--accent-color); border-color: var(--accent-color); }
+.watchzone-hero-navigation button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@keyframes watchzone-banner-enter { from { opacity: .4; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .watchzone-hero-content { animation: none; } }
+.watchzone-eyebrow { display: block; color: var(--accent-color); font-size: 9px; font-weight: 800; letter-spacing: .16em; margin-bottom: 7px; }
+.watchzone-hero h2 { max-width: 600px; font-size: clamp(25px,3.2vw,40px); line-height: 1.08; letter-spacing: -.04em; text-shadow: 0 2px 15px #000; }
+.watchzone-hero p { max-width: 560px; margin-top: 11px; color: rgba(255,255,255,.78); font-size: 12px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.watchzone-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 13px; color: rgba(255,255,255,.8); font-size: 10px; }
+.watchzone-meta span { padding: 4px 7px; border: 1px solid rgba(255,255,255,.2); border-radius: 5px; background: rgba(0,0,0,.2); }
+.watchzone-hero-actions { display: flex; gap: 9px; margin-top: 18px; }
+.watchzone-primary-button,.watchzone-secondary-button { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 15px; border: 0; border-radius: 7px; font: 700 12px var(--font-family); cursor: pointer; transition: .18s ease; }
+.watchzone-primary-button { color: #fff; background: var(--accent-color); box-shadow: 0 4px 16px var(--accent-glow); }
+.watchzone-primary-button:hover { transform: translateY(-1px); background: var(--accent-hover); }
+.watchzone-secondary-button { color: #fff; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.08); backdrop-filter: blur(8px); }
+.watchzone-secondary-button:hover { background: rgba(255,255,255,.15); }
+.watchzone-shelf { min-width: 0; }
+.watchzone-shelf-heading,.watchzone-results-heading { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.watchzone-shelf-heading h2,.watchzone-results-heading h2 { font-size: 18px; letter-spacing: -.025em; }
+.watchzone-shelf-heading .watchzone-eyebrow,.watchzone-results-heading .watchzone-eyebrow { margin-bottom: 4px; }
+.watchzone-view-all { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; padding: 7px 9px; color: var(--text-secondary); border: 1px solid transparent; border-radius: 6px; background: transparent; font: 650 10px var(--font-family); cursor: pointer; transition: color .16s ease,border-color .16s ease,background .16s ease; }
+.watchzone-view-all:hover { color: var(--text-color); border-color: var(--border-color); background: var(--secondary-bg); }
+.watchzone-view-all i { color: var(--accent-color); font-size: 9px; }
+.watchzone-card-row { display: grid; grid-auto-columns: minmax(130px,1fr); grid-auto-flow: column; grid-template-rows: 1fr; gap: 12px; overflow-x: auto; padding: 2px 2px 12px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+.watchzone-continue-row { grid-auto-columns: 224px; grid-template-rows: auto; gap: 9px; padding: 1px 1px 5px; }
+.watchzone-continue-card { position: relative; display: block; width: 100%; min-height: 84px; padding: 0; overflow: hidden; border: 1px solid var(--border-color); border-radius: 9px; background: var(--card-bg); transition: border-color .18s ease,background .18s ease; }
+.watchzone-continue-card:hover { border-color: var(--accent-color); background: var(--secondary-bg); }
+.watchzone-continue-open { display: grid; grid-template-columns: 112px minmax(0,1fr); align-items: center; gap: 9px; width: 100%; min-height: 82px; padding: 6px 25px 6px 6px; color: var(--text-color); text-align: left; border: 0; background: transparent; font: inherit; cursor: pointer; }
+.watchzone-continue-remove { position: absolute; z-index: 2; top: 4px; right: 4px; display: grid; width: 20px; height: 20px; place-items: center; padding: 0; color: #eee; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; background: rgba(12,12,14,.84); font: 9px var(--font-family); cursor: pointer; opacity: .76; }
+.watchzone-continue-remove:hover { color: #fff; border-color: #e11d2a; background: #e11d2a; opacity: 1; }
+.watchzone-continue-thumb { position: relative; display: block; width: 112px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 6px; background: #202024; }
+.watchzone-continue-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.watchzone-continue-play { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: rgba(0,0,0,.18); opacity: .82; }
+.watchzone-continue-play i { display: grid; width: 26px; height: 26px; place-items: center; padding-left: 2px; border-radius: 50%; background: rgba(0,0,0,.68); font-size: 10px; }
+.watchzone-continue-progress { position: absolute; right: 5px; bottom: 4px; left: 5px; height: 3px; overflow: hidden; border-radius: 3px; background: rgba(255,255,255,.55); }
+.watchzone-continue-progress span { display: block; height: 100%; background: var(--accent-color); }
+.watchzone-continue-copy { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.watchzone-continue-copy strong { display: -webkit-box; overflow: hidden; color: var(--text-color); font-size: 10px; line-height: 1.3; font-weight: 700; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.watchzone-continue-episode { overflow: hidden; color: var(--text-secondary); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.watchzone-continue-time { color: var(--text-muted-color); font-size: 8px; }
+.watchzone-card { min-width: 0; padding: 0; text-align: left; overflow: hidden; color: var(--text-color); border: 1px solid var(--border-color); border-radius: 10px; background: var(--card-bg); cursor: pointer; transition: transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.watchzone-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.2); box-shadow: var(--shadow-md); }
+.watchzone-card-poster { position: relative; aspect-ratio: 2 / 3; overflow: hidden; background: #222; }
+.watchzone-card-poster img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .28s ease; }
+.watchzone-card:hover .watchzone-card-poster img { transform: scale(1.04); }
+.watchzone-card-type { position: absolute; left: 7px; top: 7px; padding: 4px 6px; color: #fff; border-radius: 4px; background: rgba(0,0,0,.72); font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.watchzone-card-rating { position: absolute; right: 7px; top: 7px; padding: 4px 6px; color: #fff; border-radius: 4px; background: rgba(0,0,0,.72); font-size: 9px; font-weight: 700; }
+.watchzone-card-info { padding: 9px 9px 10px; }
+.watchzone-card-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 30px; font-size: 11px; line-height: 1.35; font-weight: 650; }
+.watchzone-card-subtitle { overflow: hidden; margin-top: 5px; color: var(--text-muted-color); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.watchzone-iptv-card .watchzone-card-poster { display: grid; place-items: center; aspect-ratio: 16 / 9; background: radial-gradient(ellipse at 50% 45%,rgba(255,255,255,.12),transparent 65%),linear-gradient(145deg,#222226,#111114); }
+.watchzone-iptv-card .watchzone-card-poster img.watchzone-iptv-logo { position: relative; width: 100%; height: 100%; padding: 16px; object-fit: contain; }
+.watchzone-iptv-card:hover .watchzone-card-poster img.watchzone-iptv-logo { transform: scale(1.035); }
+.watchzone-iptv-fallback { display: grid; width: 58px; height: 58px; place-items: center; color: #fff; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; background: linear-gradient(145deg,var(--accent-color),#5e1018); font-size: 17px; font-weight: 850; }
+.watchzone-iptv-fallback[hidden] { display: none; }
+.watchzone-iptv-tags { display: flex; min-width: 0; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.watchzone-iptv-tag { max-width: 100%; overflow: hidden; padding: 3px 5px; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 4px; background: rgba(255,255,255,.035); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.watchzone-progress { height: 3px; margin-top: 8px; overflow: hidden; border-radius: 9px; background: rgba(255,255,255,.15); }
+.watchzone-progress span { display: block; height: 100%; background: var(--accent-color); }
+.watchzone-results-heading { justify-content: flex-start; align-items: center; }
+.watchzone-results-more { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 42px; }
+.watchzone-results-more[hidden] { display: none !important; }
+.watchzone-results-more > span { color: var(--text-muted-color); font-size: 10px; }
+.watchzone-results-more button { min-height: 34px; padding: 0 13px; color: var(--text-color); border: 1px solid var(--border-color); border-radius: 7px; background: var(--secondary-bg); font: 650 11px var(--font-family); cursor: pointer; }
+.watchzone-results-more button:hover:not(:disabled) { border-color: var(--accent-color); }
+.watchzone-results-more button:disabled { opacity: .55; cursor: default; }
+.watchzone-back-button,.watchzone-icon-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 35px; padding: 0 11px; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 7px; background: var(--secondary-bg); font: 600 11px var(--font-family); cursor: pointer; }
+.watchzone-back-button:hover,.watchzone-icon-button:hover { color: var(--text-color); border-color: var(--border-hover); }
+.watchzone-card-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(140px,1fr)); gap: 14px; }
+.watchzone-details-heading { display: flex; justify-content: space-between; align-items: center; }
+.watchzone-details-hero { position: relative; min-height: 245px; overflow: hidden; display: flex; align-items: flex-end; margin-top: 2px; padding: 28px; border: 1px solid var(--border-color); border-radius: 13px; background-position: center; background-size: cover; }
+.watchzone-details-hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,rgba(8,8,9,.96),rgba(8,8,9,.57) 72%,rgba(8,8,9,.28)),linear-gradient(0deg,rgba(8,8,9,.74),transparent 68%); }
+.watchzone-details-copy { position: relative; z-index: 1; max-width: 680px; }
+.watchzone-details-copy h2 { font-size: clamp(24px,3vw,38px); letter-spacing: -.035em; }
+.watchzone-details-copy p { margin-top: 10px; color: rgba(255,255,255,.77); font-size: 12px; line-height: 1.65; }
+.watchzone-playback-panel { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(230px,.8fr); gap: 18px; align-items: start; }
+.watchzone-player-column { min-width: 0; }
+.watchzone-player-heading { display: flex; align-items: center; justify-content: space-between; margin: 0 0 8px; }
+.watchzone-player-heading h3 { font-size: 13px; }
+.watchzone-player-slot { position: relative; width: 100%; aspect-ratio: 16 / 9; min-height: 230px; max-height: 65vh; overflow: hidden; border: 1px solid var(--border-color); border-radius: 11px; background: #000; }
+.watchzone-player-slot.dropdown-menu-open > * { visibility: hidden; }
+.watchzone-player-slot.dropdown-menu-open::after { content: "Playback continues while you adjust controls"; position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; color: var(--text-muted-color); background: #050505; text-align: center; font-size: 11px; pointer-events: none; }
+.watchzone-player-placeholder { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; color: var(--text-muted-color); text-align: center; font-size: 12px; }
+.watchzone-player-placeholder i { display: block; margin-bottom: 11px; color: var(--accent-color); font-size: 28px; }
+.watchzone-player-error { overflow: hidden; background: radial-gradient(ellipse at 50% 42%,rgba(225,29,42,.14),transparent 58%),linear-gradient(145deg,#111114,#080809 72%); }
+.watchzone-error-card { width: min(440px,100%); padding: clamp(20px,4vw,32px); border: 1px solid rgba(225,29,42,.3); border-radius: 16px; background: linear-gradient(145deg,rgba(25,22,24,.92),rgba(13,13,15,.94)); box-shadow: 0 18px 55px rgba(0,0,0,.55),0 0 38px rgba(225,29,42,.09); backdrop-filter: blur(14px); animation: watchzone-error-enter .28s ease-out both; }
+.watchzone-error-icon { display: grid; width: 52px; height: 52px; place-items: center; margin: 0 auto 15px; border: 1px solid rgba(225,29,42,.35); border-radius: 16px; background: linear-gradient(145deg,rgba(225,29,42,.22),rgba(225,29,42,.08)); box-shadow: 0 8px 28px rgba(225,29,42,.15); }
+.watchzone-error-icon i { margin: 0; color: #ff6871; font-size: 21px; }
+.watchzone-error-eyebrow { display: block; color: var(--accent-color); font-size: 9px; font-weight: 800; letter-spacing: .18em; }
+.watchzone-error-card h3 { margin-top: 8px; color: var(--text-color); font-size: clamp(18px,2vw,23px); letter-spacing: -.035em; }
+.watchzone-error-card p { max-width: 360px; margin: 9px auto 0; color: var(--text-secondary); font-size: 11px; line-height: 1.65; overflow-wrap: anywhere; }
+.watchzone-error-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 21px; }
+.watchzone-error-actions button { display: inline-flex; min-height: 35px; align-items: center; justify-content: center; gap: 7px; padding: 0 13px; border-radius: 7px; font: 700 11px var(--font-family); cursor: pointer; transition: transform .16s ease,background .16s ease,border-color .16s ease; }
+.watchzone-error-actions button:hover:not(:disabled) { transform: translateY(-1px); }
+.watchzone-error-retry { color: #fff; border: 1px solid transparent; background: linear-gradient(135deg,var(--accent-color),var(--accent-hover)); box-shadow: 0 5px 18px var(--accent-glow); }
+.watchzone-error-retry:disabled { opacity: .7; cursor: wait; }
+.watchzone-error-back { color: var(--text-secondary); border: 1px solid var(--border-color); background: rgba(255,255,255,.035); }
+.watchzone-error-back:hover { color: var(--text-color); border-color: rgba(255,255,255,.25); background: rgba(255,255,255,.08); }
+@keyframes watchzone-error-enter { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.watchzone-episode-browser { display: flex; flex-direction: column; gap: 12px; padding: 15px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--secondary-bg); }
+.watchzone-episode-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 14px; }
+.watchzone-episode-heading h3 { font-size: 15px; }
+.watchzone-episode-heading .watchzone-eyebrow { margin-bottom: 4px; }
+.watchzone-episode-heading h3 span { margin-left: 6px; color: var(--text-muted-color); font-size: 10px; font-weight: 500; }
+.watchzone-episode-search { display: flex; align-items: center; gap: 8px; width: min(320px,48%); height: 36px; padding: 0 10px; color: var(--text-muted-color); border: 1px solid var(--border-color); border-radius: 7px; background: var(--input-bg); }
+.watchzone-episode-search:focus-within { border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--accent-glow); }
+.watchzone-episode-search input { width: 100%; min-width: 0; padding: 0; color: var(--text-color); border: 0; outline: 0; background: transparent; font: 11px var(--font-family); }
+.watchzone-episode-search input::placeholder { color: var(--text-muted-color); }
+.watchzone-episode-list { display: grid; grid-template-columns: repeat(auto-fill,minmax(245px,1fr)); gap: 9px; }
+.watchzone-episode-button { display: grid; grid-template-columns: 112px minmax(0,1fr) 25px; align-items: center; gap: 10px; min-width: 0; min-height: 76px; padding: 7px; color: var(--text-secondary); text-align: left; border: 1px solid var(--border-color); border-radius: 8px; background: rgba(255,255,255,.025); cursor: pointer; transition: border-color .16s ease,background .16s ease; }
+.watchzone-episode-button:hover,.watchzone-episode-button.active { color: var(--text-color); border-color: var(--accent-color); background: rgba(255,255,255,.06); }
+.watchzone-episode-thumb { position: relative; display: block; width: 112px; aspect-ratio: 16/9; overflow: hidden; border-radius: 5px; background: #202024; }
+.watchzone-episode-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.watchzone-episode-thumb > span { position: absolute; bottom: 4px; left: 5px; padding: 2px 4px; color: #fff; border-radius: 3px; background: rgba(0,0,0,.75); font-size: 8px; font-weight: 800; }
+.watchzone-episode-copy { display: flex; min-width: 0; flex-direction: column; gap: 5px; }
+.watchzone-episode-copy strong { overflow: hidden; color: var(--text-color); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.watchzone-episode-copy > span { display: -webkit-box; overflow: hidden; color: var(--text-muted-color); font-size: 9px; line-height: 1.4; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.watchzone-episode-action { display: grid; width: 24px; height: 24px; place-items: center; color: var(--accent-color); border-radius: 50%; background: var(--accent-glow); font-size: 9px; }
+.watchzone-episode-empty { grid-column: 1/-1; padding: 20px 12px; color: var(--text-muted-color); border: 1px dashed var(--border-color); border-radius: 8px; text-align: center; font-size: 11px; }
+.watchzone-episode-pagination { display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 3px; }
+.watchzone-episode-pagination[hidden] { display: none; }
+.watchzone-episode-pagination span { min-width: 88px; color: var(--text-secondary); text-align: center; font-size: 10px; font-variant-numeric: tabular-nums; }
+.watchzone-episode-pagination button { min-height: 30px; }
+.watchzone-related { margin-top: 2px; }
+.watchzone-empty { padding: 18px; color: var(--text-muted-color); border: 1px dashed var(--border-color); border-radius: 9px; text-align: center; font-size: 12px; }
+.watchzone-skeleton { min-height: 205px; border-radius: 10px; background: linear-gradient(100deg,var(--card-bg) 20%,rgba(255,255,255,.06) 40%,var(--card-bg) 60%); background-size: 200% 100%; animation: watchzone-shimmer 1.3s linear infinite; }
+@keyframes watchzone-shimmer { to { background-position-x: -200%; } }
+/* Playback replaces the browse surface; it is never appended below the catalog. */
+.watchzone-playing .watchzone-shell { height: 100%; min-height: 0; gap: 0; }
+.watchzone-playing .watchzone-toolbar,.watchzone-playing .watchzone-status { display: none; }
+.watchzone-player-page { display: flex; flex: 1; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 0 16px; }
+.watchzone-playback-header { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 13px; min-width: 0; padding: 2px 0 10px; border-bottom: 1px solid var(--border-color); background: var(--primary-bg); }
+.watchzone-playback-title { flex: 1; min-width: 0; }
+.watchzone-playback-title .watchzone-eyebrow { margin-bottom: 3px; }
+.watchzone-playback-title h2 { overflow: hidden; font-size: clamp(16px,2vw,23px); letter-spacing: -.03em; text-overflow: ellipsis; white-space: nowrap; }
+.watchzone-playback-title p { margin-top: 3px; color: var(--text-muted-color); font-size: 11px; }
+.watchzone-playback-header > .watchzone-icon-button { min-width: 36px; padding: 0 10px; }
+.watchzone-source-wrap { display: flex; flex: 0 1 auto; flex-direction: column; gap: 3px; min-width: 100px; color: var(--text-muted-color); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.watchzone-variant-wrap { min-width: 100px; }
+.watchzone-dropdown.gamelist-sort-select { position: relative; z-index: 10; width: 100%; min-width: 0; }
+.watchzone-dropdown.gamelist-sort-select.open { z-index: 40; }
+.watchzone-dropdown .gamelist-sort-button { height: 34px; padding: 0 10px; border-width: 2px; border-radius: 7px; background-color: var(--input-bg); color: var(--text-color); font: 700 11px var(--font-family); }
+.watchzone-dropdown .gamelist-sort-button:focus-visible { outline: none; }
+.watchzone-dropdown .gamelist-sort-button:disabled { opacity: .55; cursor: default; }
+.watchzone-dropdown .gamelist-sort-button:disabled:hover { border-color: var(--border-color); }
+.watchzone-dropdown .gamelist-sort-options { top: calc(100% + 6px); right: 0; left: 0; width: 100%; max-height: min(240px,45vh); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: auto; scrollbar-width: none; -ms-overflow-style: none; touch-action: pan-y; }
+.watchzone-dropdown .gamelist-sort-options::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.watchzone-dropdown .gamelist-sort-option { flex: 0 0 auto; min-height: 32px; pointer-events: auto; user-select: none; }
+.watchzone-source-wrap .watchzone-dropdown { width: clamp(115px,17vw,195px); }
+.watchzone-variant-wrap .watchzone-dropdown { width: clamp(115px,16vw,170px); }
+.watchzone-playback-status { min-height: 0; color: var(--text-secondary); font-size: 11px; }
+.watchzone-playback-status:empty { display: none; }
+.watchzone-playback-status.error { padding: 9px 12px; color: #fca5a5; border: 1px solid rgba(239,68,68,.25); border-radius: 7px; background: rgba(239,68,68,.07); }
+.watchzone-playback-status.loading { color: var(--text-muted-color); }
+.watchzone-series-controls { display: flex; align-items: end; gap: 8px; flex-wrap: wrap; }
+.watchzone-series-controls .watchzone-control-wrap { display: flex; flex-direction: column; gap: 4px; color: var(--text-muted-color); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.watchzone-series-controls .watchzone-dropdown { width: clamp(115px,18vw,220px); }
+.watchzone-series-controls .watchzone-primary-button,.watchzone-series-controls .watchzone-icon-button { min-height: 34px; }
+.watchzone-series-controls .watchzone-icon-button:disabled { opacity: .38; cursor: default; }
+.watchzone-player-slot { flex: 0 0 auto; width: 100%; height: var(--watchzone-player-height, 65vh); min-height: 180px; max-height: none; aspect-ratio: auto; border-radius: 9px; }
+.watchzone-player-page > :not(.watchzone-player-slot) { flex-shrink: 0; }
+@media (max-width: 1150px) {
+  .watchzone-toolbar { align-items: flex-start; flex-direction: column; }
+  .watchzone-actions { width: 100%; flex-wrap: wrap; }
+  .watchzone-actions > .watchzone-mode-tabs { flex-basis: 100%; width: 100%; }
+  .watchzone-actions > .watchzone-search { margin-left: auto; }
+  .watchzone-playback-panel { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  #mainContentArea { padding: 16px; }
+  .watchzone-shell { gap: 15px; }
+  .watchzone-actions { grid-template-columns: minmax(0,1fr) auto; gap: 7px; }
+  .watchzone-mode-tabs { grid-column: 1/-1; grid-row: 1; justify-self: stretch; width: 100%; max-width: 100%; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .watchzone-mode { justify-content: center; gap: 5px; min-width: 0; padding: 0 5px; font-size: 10px; }
+  .watchzone-tag-wrap { grid-column: 1/-1; flex-direction: row; align-items: center; gap: 8px; }
+  .watchzone-tag-wrap .watchzone-dropdown { flex: 1; }
+  .watchzone-search { grid-column: 1; }
+  .watchzone-actions > .watchzone-tag-wrap { flex-basis: 100%; width: 100%; }
+  .watchzone-actions > .watchzone-search { min-width: 0; flex: 1; }
+  .watchzone-toolbar .refresh-button { width: 36px; min-width: 36px; height: 36px; min-height: 36px; }
+  .watchzone-hero { min-height: 280px; background-position: 58% center; }
+  .watchzone-hero-content { width: 100%; padding: 21px 21px 62px; }
+  .watchzone-hero p { -webkit-line-clamp: 2; }
+  .watchzone-card-row { grid-auto-columns: 118px; gap: 9px; }
+  .watchzone-continue-row { grid-auto-columns: 190px; gap: 7px; }
+  .watchzone-continue-open { grid-template-columns: 92px minmax(0,1fr); gap: 7px; min-height: 70px; padding: 5px 23px 5px 5px; }
+  .watchzone-continue-thumb { width: 92px; }
+  .watchzone-card-grid { grid-template-columns: repeat(auto-fill,minmax(112px,1fr)); gap: 9px; }
+  .watchzone-details-hero { min-height: 255px; padding: 19px; }
+  .watchzone-player-slot { min-height: 180px; }
+  .watchzone-playing .watchzone-shell { height: 100%; }
+  .watchzone-player-page { gap: 9px; }
+  .watchzone-playback-header { gap: 8px; flex-wrap: wrap; }
+  .watchzone-playback-title { order: 1; flex: 1 1 calc(100% - 90px); }
+  .watchzone-playback-header > .watchzone-back-button { order: 0; }
+  .watchzone-playback-header > .watchzone-icon-button { order: 2; margin-left: auto; }
+  .watchzone-playback-header .watchzone-back-button { min-width: 35px; padding: 0 9px; }
+  .watchzone-playback-header .watchzone-back-button span { display: none; }
+  .watchzone-playback-title h2 { font-size: 15px; }
+  .watchzone-series-controls { gap: 6px; }
+  .watchzone-series-controls .watchzone-control-wrap { flex: 1 1 28%; min-width: 80px; }
+  .watchzone-series-controls .watchzone-dropdown { width: 100%; }
+  .watchzone-series-controls .watchzone-primary-button { flex: 1 1 100%; justify-content: center; }
+  .watchzone-player-slot { flex: 0 0 auto; min-height: 180px; max-height: none; }
+  .watchzone-episode-browser { padding: 11px; }
+  .watchzone-episode-toolbar { align-items: stretch; flex-direction: column; gap: 9px; }
+  .watchzone-episode-search { width: 100%; }
+  .watchzone-episode-list { grid-template-columns: minmax(0,1fr); gap: 7px; }
+  .watchzone-episode-button { grid-template-columns: 96px minmax(0,1fr) 22px; gap: 8px; min-height: 68px; }
+  .watchzone-episode-thumb { width: 96px; }
+  .watchzone-episode-action { width: 21px; height: 21px; }
+  .watchzone-source-wrap { order: 3; flex: 1 1 calc(50% - 8px); min-width: 0; }
+  .watchzone-source-wrap > span { display: none; }
+  .watchzone-source-wrap .watchzone-dropdown { width: 100%; }
+  .watchzone-variant-wrap { order: 3; flex: 1 1 calc(50% - 8px); min-width: 0; }
+  .watchzone-variant-wrap > span { display: none; }
+  .watchzone-variant-wrap .watchzone-dropdown { width: 100%; }
+}

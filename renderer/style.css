@@ -1,0 +1,2692 @@
+/* 2026 LuaManifest Redesign - Modern Premium Dark Theme */
+:root {
+  /* New 2026 color palette with deeper blacks and softer accent */
+  --primary-bg: #0a0a0b;
+  --secondary-bg: #141416;
+  --sidebar-bg: #0d0d0e;
+  --input-bg: #1a1a1d;
+  --title-bar-bg: #0d0d0e;
+  --card-bg: #18181b;
+
+  /* Accent - GameZoneQA Ultimate red */
+  --accent-color: #e11d2a;
+  --accent-glow: rgba(225, 29, 42, 0.20);
+  --accent-hover: #b9101d;
+  --button-bg: var(--accent-color);
+  --button-hover-bg: var(--accent-hover);
+
+  /* Text Colors - Higher contrast */
+  --text-color: #fafafa;
+  --text-muted-color: #71717a;
+  --text-secondary: #a1a1aa;
+
+  /* Status Colors */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --drm-found-color: var(--warning-color);
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.1);
+  --coming-soon-color: var(--error-color);
+  --not-playable-color: var(--error-color);
+  --free-to-play-color: var(--success-color);
+
+  /* New modern font stack */
+  --font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Fira Code", monospace;
+
+  /* New spacing and radius system */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-bg);
+  overflow: hidden;
+}
+
+/* Redesigned title bar with subtle gradient */
+#customTitleBar {
+  width: 100%;
+  height: 38px;
+  background: linear-gradient(180deg, var(--title-bar-bg) 0%, rgba(13, 13, 14, 0.95) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: var(--text-muted-color);
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color);
+  -webkit-app-region: drag;
+  backdrop-filter: blur(10px);
+}
+
+.title-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.title-bar-logo {
+  height: 18px;
+  width: 18px;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+
+.title-bar-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted-color);
+  letter-spacing: -0.01em;
+}
+
+.title-bar-version {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0;
+}
+
+/* Membership badge in title bar */
+.membership-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.badge-free {
+    background: linear-gradient(135deg, #4b5563 0%, #1f2937 100%);
+    color: #d1d5db;
+    border: 1px solid rgba(156, 163, 175, 0.2);
+}
+
+.badge-premium {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(225, 29, 72, 0.5);
+    border: 1px solid rgba(225, 29, 72, 0.3);
+}
+
+.badge-trial {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.title-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-bar-right i {
+  cursor: pointer;
+  font-size: 12px;
+  padding: 8px;
+  transition: all 0.2s ease;
+  -webkit-app-region: no-drag;
+  border-radius: var(--radius-sm);
+}
+
+.title-bar-right i:hover {
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.title-bar-right i.close:hover {
+  color: var(--error-color);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Completely redesigned auth page */
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow) 0%, transparent 50%), var(--primary-bg);
+}
+
+#authInitialMessage {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+#authFormElements {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: 60px;
+}
+
+.auth-title-container {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.auth-title-container h1 {
+  font-size: 36px;
+  background: linear-gradient(135deg, var(--text-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+#authFormElements input[type="text"] {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+#authFormElements input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+#authFormElements input[type="text"]::placeholder {
+  color: var(--text-muted-color);
+}
+
+#authFormElements button#submitAuthButton {
+  width: 100%;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-glow);
+}
+
+#authFormElements button#submitAuthButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+#authFormElements button.guest-auth-button {
+  width: 100%;
+  padding: 13px 28px;
+  background: rgba(225, 29, 46, 0.08);
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+#authFormElements button.guest-auth-button:hover {
+  transform: translateY(-1px);
+  background: rgba(225, 29, 46, 0.14);
+  box-shadow: 0 0 22px var(--accent-glow);
+}
+
+#authStatus {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 12px 16px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent-color);
+  line-height: 1.5;
+  display: none;
+  text-align: left;
+  width: 100%;
+}
+
+#authStatus.error {
+  color: var(--error-color);
+  border-left-color: var(--error-color);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+#authStatus.success {
+  color: var(--success-color);
+  border-left-color: var(--success-color);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.auth-readme-content {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted-color);
+  line-height: 1.6;
+  padding: 14px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  text-align: left;
+  width: 100%;
+}
+
+.auth-readme-content a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-readme-content a:hover {
+  text-decoration: underline;
+}
+
+#pageBottomRightButtonContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+}
+
+.secondary-auth-button {
+  padding: 10px 18px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.secondary-auth-button:hover {
+  background-color: var(--secondary-bg);
+  border-color: var(--accent-color);
+}
+
+/* Redesigned modal with glassmorphism */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  margin: auto;
+  padding: 28px 32px;
+  border: 1px solid var(--border-color);
+  width: 90%;
+  max-width: 440px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  text-align: center;
+}
+
+.close-modal-button {
+  color: var(--text-muted-color);
+  font-size: 24px;
+  font-weight: 500;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-modal-button:hover,
+.close-modal-button:focus {
+  color: var(--text-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: var(--text-color);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.modal-description {
+  font-size: 13px;
+  color: var(--text-muted-color);
+  margin-bottom: 24px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.modal-label {
+  display: block;
+  text-align: left;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.modal-content input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.modal-content input[type="text"]::placeholder {
+  color: var(--text-muted-color);
+}
+
+.modal-submit-button {
+  width: 100%;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.modal-submit-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.modal-submit-button.danger-confirm {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: #fff;
+}
+
+.modal-submit-button.danger-confirm:hover {
+  box-shadow: 0 0 0 1px var(--error-color), var(--shadow-md);
+}
+
+.modal-submit-button:disabled {
+  background: var(--input-bg);
+  color: var(--text-muted-color);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.modal-status {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  line-height: 1.5;
+  display: none;
+  width: 100%;
+  text-align: center;
+  border-left-width: 3px;
+  border-left-style: solid;
+  box-sizing: border-box;
+}
+
+.modal-status.success {
+  color: var(--success-color);
+  background-color: rgba(16, 185, 129, 0.08);
+  border-left-color: var(--success-color);
+}
+
+.modal-status.error {
+  color: var(--error-color);
+  background-color: rgba(239, 68, 68, 0.08);
+  border-left-color: var(--error-color);
+}
+
+.modal-status.info {
+  color: var(--text-secondary);
+  background-color: rgba(113, 113, 122, 0.08);
+  border-left-color: var(--text-muted-color);
+}
+
+/* Redesigned main app layout */
+#mainAppSection {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Modern compact sidebar */
+#sidebar {
+  width: 200px;
+  background-color: var(--sidebar-bg);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border-color);
+  flex-shrink: 0;
+  min-height: 0;
+}
+
+#sidebarHeader {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#appHeader {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+#appHeader h1 {
+  font-size: 24px;
+  color: var(--text-color);
+  margin-bottom: 4px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+#appHeader h1 span#appVersion {
+  font-size: 11px;
+  color: var(--text-muted-color);
+  font-weight: 500;
+}
+
+.app-subtitle {
+  font-size: 12px;
+  color: var(--text-muted-color);
+  margin-bottom: 8px;
+  font-style: normal;
+}
+
+/* Redesigned version status badges */
+.version-status-indicator {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.version-status-indicator.free {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+}
+
+.version-status-indicator.premium {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* Sleek sidebar menu items */
+#sidebarMenu {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 2px;
+}
+
+#sidebarMenu .sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 11px 14px;
+  margin-bottom: 4px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted-color);
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  transition: all 0.15s ease;
+}
+
+#sidebarMenu .sidebar-menu-item i {
+  margin-right: 12px;
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+#sidebarMenu .sidebar-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--text-color);
+}
+
+#sidebarMenu .sidebar-menu-item.active-menu-item {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+#sidebarMenu .sidebar-menu-item.active-menu-item i { color: #fff; }
+
+.chat-unread-badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 99px;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-color);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 0 12px rgba(230, 57, 70, 0.45);
+}
+
+#sidebarBottom {
+  flex-shrink: 0;
+  padding-top: 12px;
+}
+
+/* Custom Input Focus Style */
+input[type="text"]:focus,
+input[type="search"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.expiration-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: block;
+  margin: 12px auto 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  max-width: 160px;
+  line-height: 1.4;
+}
+
+.expiration-status.yellow-bg {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+}
+
+.expiration-status.green-bg {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+}
+
+/* Redesigned footer links */
+#sidebarFooterLinks {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-icon-link {
+  color: var(--text-muted-color);
+  font-size: 16px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.footer-icon-link:hover {
+  color: var(--accent-color);
+  background: var(--accent-glow);
+}
+
+#contentAreaWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--primary-bg);
+}
+
+#mainContentArea {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background-color: var(--primary-bg);
+  position: relative;
+}
+
+#contentAreaFooter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 24px;
+  margin-bottom: 16px;
+  background-color: var(--primary-bg);
+  flex-shrink: 0;
+}
+
+.content-view {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.content-view.active-view {
+  display: flex;
+}
+
+/* Redesigned notes/warnings section */
+.notes {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.04) 100%);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  border-left: 3px solid var(--warning-color);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.notes p {
+  margin: 0;
+}
+
+.notes strong {
+  color: var(--warning-color);
+}
+
+#homeView label,
+#settingsView .settings-section > label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: block;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Specific margin for Home View (AppID) - Reduced distance */
+#homeView label {
+  margin-bottom: -5px;
+}
+
+/* Specific margin for Settings View (Save Location) - Kept larger */
+#settingsView .settings-section > label {
+  margin-bottom: 10px;
+}
+
+#homeView input[type="text"] {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  width: 100%;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+#homeView input[type="text"]::placeholder {
+  color: var(--text-muted-color);
+}
+
+/* Modern action buttons */
+.main-action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.main-action-buttons .icon-button {
+  flex-grow: 1;
+}
+
+.icon-button i {
+  font-size: 14px;
+}
+
+.icon-button:hover {
+  transform: translateY(-1px);
+}
+
+.icon-button:active {
+  transform: translateY(0);
+}
+
+.main-icon-button {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.main-icon-button:hover {
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.steam-action-button-blue {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%) !important;
+  color: white !important;
+  font-size: 12px;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.steam-action-button-blue:hover {
+  box-shadow: 0 4px 16px var(--accent-glow) !important;
+}
+
+.delete-button-red {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+.delete-button-red:hover {
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.save-location-button-yellow {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+}
+
+.save-location-button-yellow:hover {
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+}
+
+.steam-fix-button-red {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%) !important;
+  color: white !important;
+  font-size: 12px;
+  box-shadow: 0 2px 8px var(--accent-glow);
+  margin-right: 12px;
+}
+
+.steam-fix-button-red:hover {
+  box-shadow: 0 4px 16px var(--accent-glow) !important;
+}
+
+.icon-button:disabled {
+  background: var(--input-bg) !important;
+  color: var(--text-muted-color) !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Redesigned log/status area */
+#statusArea,
+#dlcStatusArea {
+  flex-grow: 1;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  overflow-y: auto;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  max-height: none;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.log-entry {
+  margin-bottom: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  word-break: break-word;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.log-timestamp {
+  color: var(--text-muted-color);
+  margin-right: 10px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.log-entry.info .log-message {
+  color: var(--text-secondary);
+}
+
+.log-entry.success .log-message {
+  color: var(--success-color);
+}
+
+.log-entry.warning .log-message {
+  color: var(--warning-color);
+}
+
+.log-entry.error .log-message {
+  color: var(--error-color);
+}
+
+.log-entry.drm-found .log-message {
+  color: var(--drm-found-color);
+  font-weight: 600;
+}
+
+.log-entry.progress .log-message {
+  color: var(--text-muted-color);
+}
+
+#homeView.drag-over-active {
+  background-color: rgba(16, 185, 129, 0.05);
+  border: 2px dashed var(--accent-color);
+  border-radius: var(--radius-lg);
+}
+
+/* Redesigned settings section */
+.settings-section {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.path-and-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#currentSavePathInput {
+  flex-grow: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 13px;
+  font-family: var(--font-family);
+}
+
+#currentSavePathInput:read-only {
+  color: var(--text-muted-color);
+}
+
+.standard-button {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.3;
+  word-break: keep-all;
+  min-height: 40px;
+}
+
+.standard-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.standard-button:disabled {
+  background: var(--input-bg) !important;
+  color: var(--text-muted-color) !important;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+  transform: none !important;
+}
+
+#wipeSteamtoolsButton.delete-button-red:disabled {
+  background: var(--input-bg) !important;
+  color: var(--text-muted-color) !important;
+}
+
+#stopSteamButton.steam-action-button-blue:disabled {
+  background: var(--input-bg) !important;
+  color: var(--text-muted-color) !important;
+}
+
+#wipeSteamtoolsButton.delete-button-red {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+}
+
+#wipeSteamtoolsButton.delete-button-red:hover {
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.button-row-advanced {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#temporaryFixContainer .standard-button {
+  flex: 1;
+}
+
+.button-row-advanced .standard-button {
+  flex: 1;
+  min-width: 80px;
+  font-size: 11px;
+  padding: 10px 8px;
+}
+
+.button-row-advanced .standard-button i {
+  font-size: 12px;
+}
+
+/* Redesigned toggle switches */
+.toggle-switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: var(--text-color);
+  margin-right: 16px;
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--input-bg);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--text-muted-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:checked + .slider {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  border-color: var(--accent-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+  background-color: #000;
+}
+
+.slider.round {
+  border-radius: 26px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+input:disabled + .slider {
+  background-color: var(--input-bg) !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+input:disabled + .slider:before {
+  background-color: var(--text-muted-color) !important;
+}
+
+/* Modern loading spinner */
+.app-loader {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Refined scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* DLC View Specific Styling */
+#dlcView .dlc-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+#dlcView .dlc-input-group label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#dlcView .dlc-input-group input[type="text"] {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+  width: 100%;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+#dlcView .dlc-input-group input[type="text"]::placeholder {
+  color: var(--text-muted-color);
+}
+
+#dlcView .main-action-buttons {
+  margin-bottom: 16px;
+}
+
+/* Redesigned controls bar */
+.controls-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  margin-bottom: 16px;
+}
+
+#gamelistView .controls-bar {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+#libraryView .controls-bar {
+  flex-wrap: wrap;
+}
+
+#librarySearchView {
+  min-width: 280px;
+}
+
+.library-action-legend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  order: 10;
+  flex: 0 0 100%;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+}
+
+.library-action-legend-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(225, 29, 42, 0.18);
+  background: rgba(225, 29, 42, 0.04);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.library-action-legend-item {
+  gap: 7px;
+}
+
+.library-action-legend-item i {
+  width: 13px;
+  color: var(--accent-color);
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 1180px) {
+  .library-action-legend {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 11px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 13px;
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted-color);
+}
+
+.search-input-container {
+  flex-grow: 1;
+  display: flex;
+}
+/* Custom styling for the search input "X" (clear) button */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  background-color: var(--text-muted-color); /* Matches your theme's muted text */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+input[type="search"]::-webkit-search-cancel-button:hover {
+  background-color: var(--error-color); /* Turns red when you hover over it */
+}
+.refresh-button {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 11px 16px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-family: var(--font-family);
+}
+
+.refresh-button i {
+  font-size: 12px;
+}
+
+.refresh-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.refresh-button:disabled {
+  background: var(--input-bg);
+  color: var(--text-muted-color);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.gamelist-search-button {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 11px 20px;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-family: var(--font-family);
+}
+
+.gamelist-search-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.gamelist-search-button:disabled {
+  background: var(--input-bg);
+  color: var(--text-muted-color);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.gamelist-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin: 0 0 16px;
+  padding-right: 8px;
+  min-width: 0;
+}
+
+.gamelist-notice-badge {
+  display: flex;
+  align-items: center;
+  margin: 0 8px 8px 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(225, 29, 46, 0.28);
+  border-radius: var(--radius-md);
+  background: rgba(225, 29, 46, 0.08);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.gamelist-category-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+.gamelist-category-scroller {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  padding: 2px 0;
+}
+
+.gamelist-category-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.gamelist-category-chip,
+.gamelist-category-arrow {
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-secondary);
+  font-family: var(--font-family);
+  transition: all 0.2s ease;
+}
+
+.gamelist-category-chip {
+  flex: 0 0 auto;
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.gamelist-category-chip:hover {
+  color: var(--text-color);
+  border-color: var(--border-hover);
+}
+
+.gamelist-category-chip.active {
+  color: #fff;
+  border-color: var(--accent-color);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  box-shadow: var(--shadow-glow);
+}
+
+.gamelist-category-arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  cursor: pointer;
+}
+
+.gamelist-category-arrow:hover:not(:disabled) {
+  color: #fff;
+  border-color: var(--accent-color);
+}
+
+.gamelist-category-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.gamelist-sort-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.gamelist-sort-select {
+  position: relative;
+  width: 154px;
+}
+
+.gamelist-playable-select {
+  width: 126px;
+}
+
+.gamelist-sort-button {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 14px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.gamelist-clear-filter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gamelist-clear-filter-button:hover,
+.gamelist-clear-filter-button:focus {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #8f0c16 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+  outline: none;
+}
+
+.gamelist-clear-filter-button i {
+  font-size: 11px;
+}
+
+.gamelist-sort-button span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gamelist-sort-button i {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.gamelist-sort-select.open .gamelist-sort-button,
+.gamelist-sort-button:hover,
+.gamelist-sort-button:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.gamelist-sort-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background-color: var(--input-bg);
+  box-shadow: var(--shadow-lg);
+  display: none;
+}
+
+.gamelist-sort-select.open .gamelist-sort-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gamelist-sort-option {
+  width: 100%;
+  min-height: 32px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gamelist-sort-option:hover,
+.gamelist-sort-option.active {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+/* --- GRID LAYOUT MODIFICATIONS FOR GAMELISTS --- */
+
+/* Redesigned game list container (GRID LAYOUT) */
+.game-list-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Responsive grid columns */
+  align-content: start;
+  gap: 16px;
+  padding-right: 8px;
+}
+
+.list-status-message {
+  padding: 14px 18px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--accent-color);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.list-status-message.error {
+  color: var(--error-color);
+  border-left-color: var(--error-color);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.list-status-message.warning {
+  color: var(--warning-color);
+  border-left-color: var(--warning-color);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+/* Modern game item cards (CARD LAYOUT) */
+.game-item {
+  display: flex;
+  flex-direction: column; /* Stack contents vertically */
+  align-items: center;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  gap: 12px;
+  transition: all 0.2s ease;
+  height: 100%; /* Stretch vertically to match row height */
+}
+
+.game-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.game-item img {
+  width: 100%; /* Fill the card width */
+  height: 110px; /* Fixed height for uniformity */
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background-color: var(--input-bg);
+}
+
+.gamelist-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background-color: var(--input-bg);
+}
+
+.gamelist-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.gamelist-thumb-badges {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.gamelist-thumb-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 4px 7px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.gamelist-thumb-badge.bypass {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+}
+
+.gamelist-thumb-badge.activation {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #111;
+  text-shadow: none;
+}
+
+.game-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center; /* Center the text contents */
+  text-align: center;
+}
+
+.game-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+  width: 100%; /* Required for ellipsis to work in centered flexbox */
+  text-align: center;
+}
+
+.appid-status-wrapper {
+  display: flex;
+  flex-direction: column; /* Stack AppID and Status label vertically */
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.game-appid {
+  font-size: 11px;
+  color: var(--text-muted-color);
+  margin: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1.2;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+}
+
+.game-appid:hover {
+  color: var(--accent-color);
+}
+
+.game-appid.copied-feedback {
+  color: var(--success-color) !important;
+  font-weight: 600;
+}
+
+.game-appid.copy-failed-feedback {
+  color: var(--error-color) !important;
+  font-weight: 600;
+}
+
+.game-item-actions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  margin-top: auto; /* Pushes action buttons to the absolute bottom of the card */
+  padding-top: 8px;
+}
+
+/* Refined game item buttons */
+.game-item-button {
+  flex: 1; /* Makes the buttons stretch evenly based on how many exist (100% width for 1, 50% for 2, etc.) */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+  font-family: var(--font-family);
+  text-align: center;
+}
+
+.game-item-button i {
+  font-size: 12px;
+}
+
+.game-item-button.update-btn {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.game-item-button.update-btn:hover {
+  background: transparent;
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.game-item-button.delete-btn {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.game-item-button.delete-btn:hover {
+  background: transparent;
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+/* --- Library multi-select / bulk delete --- */
+.game-item.selectable {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Hide the per-game delete button while multi-selecting; use "Delete Selected" instead. */
+.game-item.selectable .library-game-actions {
+  display: none;
+}
+
+.game-item.library-select-session .library-game-actions {
+  display: none;
+}
+
+.game-item.selected {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color), var(--shadow-glow);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.library-select-checkbox {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  transition: all 0.15s ease;
+}
+
+.library-select-checkbox:hover {
+  border-color: var(--accent-color);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.library-select-checkbox:checked {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  border-color: var(--accent-color);
+}
+
+.library-select-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.refresh-button.delete-selected-button {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: #fff;
+}
+
+.refresh-button.delete-selected-button:disabled {
+  background: var(--input-bg);
+  color: var(--text-muted-color);
+}
+
+.refresh-button.cancel-select-button {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.game-item-button.disable-btn {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+  border: 1px solid transparent;
+}
+
+.game-item-button.disable-btn:hover {
+  background: transparent;
+  color: var(--warning-color);
+  border-color: var(--warning-color);
+}
+
+.game-item-button.add-btn {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border: 1px solid transparent; /* Keeps the button size from shifting on hover */
+}
+
+.game-item-button.add-btn.downloaded {
+  background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+.game-item-button.add-btn:hover {
+  background: transparent;
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+.game-item-button.add-btn.downloaded:hover {
+  background: transparent !important;
+  color: var(--success-color) !important;
+  border-color: var(--success-color) !important;
+}
+
+.game-item-button:disabled {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted-color);
+  background-color: transparent;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.game-item-button:disabled i.fa-spinner {
+  color: var(--text-muted-color);
+}
+
+/* ===== Your Library — list/row layout (overrides the card grid) ===== */
+#libraryGameList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#libraryGameList .game-item {
+  flex-direction: row;
+  align-items: center;
+  height: auto;
+  padding: 12px 16px;
+  gap: 16px;
+}
+
+#libraryGameList .game-item img {
+  width: 96px;
+  height: 54px;
+  flex-shrink: 0;
+}
+
+#libraryGameList .game-info {
+  flex: 1;
+  min-width: 0; /* allows the name ellipsis to work inside the flex row */
+  align-items: flex-start;
+  text-align: left;
+}
+
+#libraryGameList .game-name,
+#libraryGameList .game-appid {
+  text-align: left;
+}
+
+.library-game-source {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 20px;
+  margin: 2px 0 0;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.library-install-actions {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+
+.library-install-state {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  gap: 6px;
+  min-width: 86px;
+  min-height: 24px;
+  margin: 0;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.library-play-state {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 64px;
+  min-height: 24px;
+  margin: 0;
+  padding: 4px 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: var(--font-family);
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--accent-glow);
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.library-play-state:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #8f0c16 100%);
+  box-shadow: 0 3px 12px var(--accent-glow);
+}
+
+.library-play-state:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.library-install-state.not-installed {
+  border-color: rgba(225, 29, 42, 0.55);
+  color: var(--accent-color);
+}
+
+.library-install-state.not-installed:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+}
+
+.library-install-state.installed {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.library-install-state.installed:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #8f0c16 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 3px 12px var(--accent-glow);
+}
+
+.library-install-state:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+#libraryGameList .game-item-actions {
+  width: auto;
+  margin-top: 0;
+  padding-top: 0;
+  flex-shrink: 0;
+}
+
+#libraryGameList .game-item-actions .game-item-button {
+  flex: none;
+  width: 44px;
+  height: 34px;
+  min-width: 0;
+  padding: 9px 0;
+  gap: 0;
+}
+
+#libraryGameList .library-delete-spacer {
+  flex: none;
+  width: 44px;
+  min-width: 0;
+}
+
+#libraryGameList .game-item-actions .library-install-button {
+  width: 78px;
+  padding: 9px 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#libraryGameList .game-item-actions .library-dlc-button {
+  width: 44px;
+  height: 34px;
+  padding: 9px 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button {
+  width: 44px;
+  height: 34px;
+  padding: 9px 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#libraryGameList .game-item-actions .library-online-button {
+  width: 44px;
+  height: 34px;
+  padding: 9px 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button,
+#libraryGameList .game-item-actions .library-online-button.update-btn,
+#libraryGameList .game-item-actions .library-dlc-button.update-btn {
+  background: transparent;
+  border-color: transparent;
+  color: var(--accent-color);
+}
+
+#libraryGameList .game-item-actions .library-bypass-button i,
+#libraryGameList .game-item-actions .library-online-button i,
+#libraryGameList .game-item-actions .library-dlc-button i {
+  color: var(--accent-color);
+}
+
+#libraryGameList .game-item-actions .library-bypass-button:hover i,
+#libraryGameList .game-item-actions .library-online-button.update-btn:hover i,
+#libraryGameList .game-item-actions .library-dlc-button.update-btn:hover i,
+#libraryGameList .game-item-actions .library-online-button.delete-btn i,
+#libraryGameList .game-item-actions .library-dlc-button.delete-btn i {
+  color: #fff;
+}
+
+#libraryGameList .game-item-actions .library-online-button.delete-btn,
+#libraryGameList .game-item-actions .library-dlc-button.delete-btn {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button:hover,
+#libraryGameList .game-item-actions .library-online-button:hover,
+#libraryGameList .game-item-actions .library-dlc-button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.retroplay-auth-hover-label {
+  display: none;
+}
+
+.retroplay-auth-button.signed-in:hover .retroplay-auth-label {
+  display: none;
+}
+
+.retroplay-auth-button.signed-in:hover .retroplay-auth-hover-label {
+  display: inline;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button:hover,
+#libraryGameList .game-item-actions .library-online-button.update-btn:hover,
+#libraryGameList .game-item-actions .library-dlc-button.update-btn:hover {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  color: #fff;
+  border-color: transparent;
+}
+
+#libraryGameList .game-item-actions .library-online-button.delete-btn:hover,
+#libraryGameList .game-item-actions .library-dlc-button.delete-btn:hover {
+  background: linear-gradient(135deg, var(--accent-hover) 0%, #8f0c16 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button:disabled,
+#libraryGameList .game-item-actions .library-online-button:disabled,
+#libraryGameList .game-item-actions .library-dlc-button:disabled {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted-color);
+  cursor: not-allowed;
+  opacity: 0.48;
+  box-shadow: none;
+}
+
+#libraryGameList .game-item-actions .library-bypass-button.active:not(:disabled),
+#libraryGameList .game-item-actions .library-online-button.active:not(:disabled),
+#libraryGameList .game-item-actions .library-dlc-button.active:not(:disabled) {
+  box-shadow: none;
+}
+
+/* Modern DRM status badges */
+.gamelist-drm-status {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.gamelist-drm-status.playable {
+  background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+  color: #000;
+}
+
+.gamelist-drm-status.not_playable {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+}
+
+.gamelist-drm-status.free_to_play {
+  background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+  color: #000;
+}
+
+.gamelist-drm-status.age_restricted,
+.gamelist-drm-status.region_locked,
+.gamelist-drm-status.warning {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+}
+
+.gamelist-drm-status.coming_soon {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+}
+
+.gamelist-drm-status.api_error,
+.gamelist-drm-status.store_error,
+.gamelist-drm-status.store_invalid {
+  background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+  color: white;
+}
+
+.gamelist-drm-status.unknown {
+  background: var(--input-bg);
+  color: var(--text-muted-color);
+}
+
+.game-item-error {
+  font-size: 10px;
+  color: var(--warning-color);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.view-actual-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 0px;
+}
+
+#libraryView .view-actual-content #libraryGameList,
+#gamelistView .view-actual-content #gamelistGameList {
+  flex-grow: 1;
+}
+
+#dlcView .view-actual-content #dlcStatusArea {
+  flex-grow: 1;
+  min-height: 120px;
+}
+
+/* Redesigned premium lock message */
+.premium-lock-message {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: var(--text-muted-color);
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, var(--accent-glow) 0%, transparent 60%), var(--primary-bg);
+}
+
+.premium-lock-message i {
+  margin-bottom: 20px;
+  color: var(--accent-color);
+  filter: drop-shadow(0 0 20px var(--accent-glow));
+}
+
+.premium-lock-message p {
+  margin-bottom: 8px;
+}
+
+.premium-lock-message p:first-of-type {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Flash animations */
+.success-flash {
+  animation: flash-item-button-success 0.8s ease-out;
+}
+
+.error-flash {
+  animation: flash-item-button-error 0.8s ease-out;
+}
+
+@keyframes flash-item-button-success {
+  0%,
+  100% {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: transparent;
+  }
+  50% {
+    background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+    border-color: var(--success-color);
+    color: #000;
+  }
+}
+
+@keyframes flash-item-button-error {
+  0%,
+  100% {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background-color: transparent;
+  }
+  50% {
+    background: linear-gradient(135deg, var(--error-color) 0%, #dc2626 100%);
+    border-color: var(--error-color);
+    color: white;
+  }
+}
+
+.delete-btn.success-flash {
+  animation: flash-item-button-success 0.8s ease-out;
+}
+
+.delete-btn.error-flash {
+  animation: flash-item-button-error 0.8s ease-out;
+}
+
+.update-btn.error-flash,
+.add-btn.error-flash {
+  animation: flash-item-button-error 0.8s ease-out;
+}
+
+.steam-action-button-blue:disabled {
+  background: var(--input-bg) !important;
+  color: var(--text-muted-color) !important;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+}
+
+.game-item .game-item-button.save-location-button-yellow {
+  background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+  color: #000;
+  border: 1px solid transparent;
+}
+
+.game-item .game-item-button.save-location-button-yellow:hover {
+  background: transparent;
+  color: var(--warning-color);
+  border-color: var(--warning-color);
+  box-shadow: none;
+}
+
+.library-game-update-btn {
+    text-align: center;
+    letter-spacing: 0.05em;
+    padding: 8px 10px;
+}
+
+.library-game-update-btn i {
+    margin: 0;
+}
+
+#changeDeviceButton {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+#changeDeviceButton:hover {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--accent-glow);
+}
+
+.drag-drop-zone {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-bg);
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: 30px;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.drag-drop-zone:hover,
+.drag-drop-zone.drag-over-active {
+  background-color: rgba(34, 197, 94, 0.05); /* Soft accent glow */
+  border-color: var(--accent-color);
+}
+/* Custom Confirm Modal Button Row */
+.modal-button-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.modal-button-row button {
+  flex: 1;
+}
+
+.app-chat-message .chat-message-time {
+  margin-top: 5px;
+  font-size: 0.72rem;
+  line-height: 1;
+  opacity: 0.68;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.app-chat-message.admin .chat-message-time {
+  text-align: left;
+}
+
+/* DLC Adder / Steamless installed-game list and ON/OFF controls */
+#dlcGameList,
+#steamlessGameList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#dlcGameList .game-item,
+#steamlessGameList .game-item {
+  flex-direction: row;
+  align-items: center;
+  height: auto;
+  padding: 10px 12px;
+  gap: 12px;
+}
+
+#dlcGameList .game-item img,
+#steamlessGameList .game-item img {
+  width: 80px;
+  height: 45px;
+  flex-shrink: 0;
+}
+
+#dlcGameList .game-info,
+#steamlessGameList .game-info {
+  flex: 1;
+  min-width: 0;
+  align-items: flex-start;
+  text-align: left;
+}
+
+#dlcGameList .game-name,
+#dlcGameList .game-appid,
+#steamlessGameList .game-name,
+#steamlessGameList .game-appid {
+  text-align: left;
+}
+
+#dlcGameList .game-item-actions,
+#steamlessGameList .game-item-actions {
+  width: auto;
+  margin-top: 0;
+  padding-top: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#steamlessGameList .steamless-dll-toggle {
+  margin-left: 0;
+}
+
+#steamlessGameList .steamless-play-button {
+  width: 74px;
+  height: 28px;
+  flex: 0 0 74px;
+  padding: 0 10px;
+  gap: 6px;
+}
+
+.update-toggle {
+  position: relative;
+  display: inline-block;
+  width: 72px;
+  height: 28px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.update-toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.update-toggle-track {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.update-toggle-input:checked + .update-toggle-track {
+  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%);
+  border-color: var(--accent-hover);
+}
+
+.update-toggle-input:disabled + .update-toggle-track {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.update-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.update-toggle-input:checked + .update-toggle-track .update-toggle-thumb {
+  transform: translateX(44px);
+}
+
+.update-toggle-text {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  transition: opacity 0.2s ease;
+}
+
+.update-toggle-text.on {
+  left: 10px;
+  color: #fff;
+  opacity: 0;
+}
+
+.update-toggle-text.off {
+  right: 10px;
+  color: var(--text-muted-color);
+  opacity: 1;
+}
+
+.update-toggle-input:checked + .update-toggle-track .update-toggle-text.on {
+  opacity: 1;
+}
+
+.update-toggle-input:checked + .update-toggle-track .update-toggle-text.off {
+  opacity: 0;
+}
+
+
+/* Music Zone BrowserView */
+#youtubeMusicView { min-height: 0; gap: 0; overflow: hidden; }
+@media (max-width: 600px) { .music-zone-controls-dock { flex-basis: 46px; min-height: 46px; padding: 0 10px; } .music-zone-controls-dock button { width: 42px; min-width: 42px; height: 42px; } }
+.music-zone-player { flex: 1 1 auto; min-height: 0; overflow: hidden; background: #000; }

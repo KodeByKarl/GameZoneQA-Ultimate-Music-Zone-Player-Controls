@@ -1,0 +1,518 @@
+[
+  {
+    "id": "nes",
+    "name": "Nintendo Entertainment System",
+    "shortName": "NES",
+    "group": "Nintendo",
+    "coreAsset": "fceumm",
+    "extensions": [
+      "nes",
+      "fds",
+      "unf",
+      "unif"
+    ]
+  },
+  {
+    "id": "snes",
+    "name": "Super Nintendo",
+    "shortName": "SNES",
+    "group": "Nintendo",
+    "coreAsset": "snes9x",
+    "extensions": [
+      "sfc",
+      "smc"
+    ]
+  },
+  {
+    "id": "gb",
+    "name": "Game Boy / Color",
+    "shortName": "Game Boy",
+    "group": "Nintendo",
+    "coreAsset": "gambatte",
+    "extensions": [
+      "gb",
+      "gbc"
+    ]
+  },
+  {
+    "id": "gba",
+    "name": "Game Boy Advance",
+    "shortName": "GBA",
+    "group": "Nintendo",
+    "coreAsset": "mgba",
+    "extensions": [
+      "gba"
+    ]
+  },
+  {
+    "id": "n64",
+    "name": "Nintendo 64",
+    "shortName": "Nintendo 64",
+    "group": "Nintendo",
+    "coreAsset": "mupen64plus_next",
+    "extensions": [
+      "n64",
+      "z64",
+      "v64"
+    ]
+  },
+  {
+    "id": "nds",
+    "name": "Nintendo DS",
+    "shortName": "Nintendo DS",
+    "group": "Nintendo",
+    "coreAsset": "melonds",
+    "extensions": [
+      "nds"
+    ]
+  },
+  {
+    "id": "vb",
+    "name": "Virtual Boy",
+    "shortName": "Virtual Boy",
+    "group": "Nintendo",
+    "coreAsset": "beetle_vb",
+    "extensions": [
+      "vb",
+      "vboy"
+    ]
+  },
+  {
+    "id": "segaMS",
+    "name": "Sega Master System",
+    "shortName": "Master System",
+    "group": "Sega",
+    "coreAsset": "smsplus",
+    "extensions": [
+      "sms"
+    ]
+  },
+  {
+    "id": "segaMD",
+    "name": "Sega Mega Drive / Genesis",
+    "shortName": "Mega Drive",
+    "group": "Sega",
+    "coreAsset": "genesis_plus_gx",
+    "extensions": [
+      "md",
+      "gen",
+      "smd"
+    ]
+  },
+  {
+    "id": "segaGG",
+    "name": "Sega Game Gear",
+    "shortName": "Game Gear",
+    "group": "Sega",
+    "coreAsset": "genesis_plus_gx",
+    "extensions": [
+      "gg"
+    ]
+  },
+  {
+    "id": "segaCD",
+    "name": "Sega CD",
+    "shortName": "Sega CD",
+    "group": "Sega",
+    "coreAsset": "genesis_plus_gx",
+    "extensions": [
+      "chd",
+      "iso",
+      "cue",
+      "bin"
+    ]
+  },
+  {
+    "id": "sega32x",
+    "name": "Sega 32X",
+    "shortName": "32X",
+    "group": "Sega",
+    "coreAsset": "picodrive",
+    "extensions": [
+      "32x"
+    ]
+  },
+  {
+    "id": "segaSaturn",
+    "name": "Sega Saturn",
+    "shortName": "Saturn",
+    "group": "Sega",
+    "coreAsset": "yabause",
+    "extensions": [
+      "chd",
+      "iso"
+    ]
+  },
+  {
+    "id": "sega",
+    "name": "Sega (Auto Core)",
+    "shortName": "Sega",
+    "group": "Sega",
+    "coreAsset": "genesis_plus_gx",
+    "extensions": [
+      "md",
+      "gen",
+      "smd"
+    ]
+  },
+  {
+    "id": "atari2600",
+    "name": "Atari 2600",
+    "shortName": "Atari 2600",
+    "group": "Atari",
+    "coreAsset": "stella2014",
+    "extensions": [
+      "a26"
+    ]
+  },
+  {
+    "id": "atari5200",
+    "name": "Atari 5200",
+    "shortName": "Atari 5200",
+    "group": "Atari",
+    "coreAsset": "a5200",
+    "extensions": [
+      "a52"
+    ]
+  },
+  {
+    "id": "atari7800",
+    "name": "Atari 7800",
+    "shortName": "Atari 7800",
+    "group": "Atari",
+    "coreAsset": "prosystem",
+    "extensions": [
+      "a78"
+    ]
+  },
+  {
+    "id": "lynx",
+    "name": "Atari Lynx",
+    "shortName": "Lynx",
+    "group": "Atari",
+    "coreAsset": "handy",
+    "extensions": [
+      "lnx"
+    ]
+  },
+  {
+    "id": "jaguar",
+    "name": "Atari Jaguar",
+    "shortName": "Jaguar",
+    "group": "Atari",
+    "coreAsset": "virtualjaguar",
+    "extensions": [
+      "j64",
+      "jag"
+    ]
+  },
+  {
+    "id": "psx",
+    "name": "PlayStation",
+    "shortName": "PlayStation",
+    "group": "Sony",
+    "coreAsset": "pcsx_rearmed",
+    "extensions": [
+      "chd",
+      "pbp",
+      "iso",
+      "cue",
+      "bin"
+    ]
+  },
+  {
+    "id": "psp",
+    "name": "PlayStation Portable",
+    "shortName": "PSP",
+    "group": "Sony",
+    "coreAsset": "ppsspp",
+    "extensions": [
+      "iso",
+      "cso",
+      "pbp"
+    ]
+  },
+  {
+    "id": "arcade",
+    "name": "Arcade (FBNeo)",
+    "shortName": "Arcade",
+    "group": "Arcade",
+    "coreAsset": "fbneo",
+    "extensions": [
+      "zip"
+    ]
+  },
+  {
+    "id": "mame",
+    "name": "Arcade (MAME)",
+    "shortName": "MAME",
+    "group": "Arcade",
+    "coreAsset": "mame2003_plus",
+    "extensions": [
+      "zip"
+    ]
+  },
+  {
+    "id": "coleco",
+    "name": "ColecoVision",
+    "shortName": "ColecoVision",
+    "group": "Other Consoles",
+    "coreAsset": "gearcoleco",
+    "extensions": [
+      "col",
+      "cv"
+    ]
+  },
+  {
+    "id": "3do",
+    "name": "3DO",
+    "shortName": "3DO",
+    "group": "Other Consoles",
+    "coreAsset": "opera",
+    "extensions": [
+      "chd",
+      "iso"
+    ]
+  },
+  {
+    "id": "ngp",
+    "name": "Neo Geo Pocket / Color",
+    "shortName": "Neo Geo Pocket",
+    "group": "Other Consoles",
+    "coreAsset": "mednafen_ngp",
+    "extensions": [
+      "ngp",
+      "ngc"
+    ]
+  },
+  {
+    "id": "pce",
+    "name": "PC Engine / TurboGrafx-16",
+    "shortName": "PC Engine",
+    "group": "Other Consoles",
+    "coreAsset": "mednafen_pce",
+    "extensions": [
+      "pce"
+    ]
+  },
+  {
+    "id": "pcfx",
+    "name": "PC-FX",
+    "shortName": "PC-FX",
+    "group": "Other Consoles",
+    "coreAsset": "mednafen_pcfx",
+    "extensions": [
+      "chd",
+      "iso"
+    ]
+  },
+  {
+    "id": "ws",
+    "name": "WonderSwan / Color",
+    "shortName": "WonderSwan",
+    "group": "Other Consoles",
+    "coreAsset": "mednafen_wswan",
+    "extensions": [
+      "ws",
+      "wsc"
+    ]
+  },
+  {
+    "id": "cdi",
+    "name": "Philips CD-i",
+    "shortName": "CD-i",
+    "group": "Other Consoles",
+    "coreAsset": "same_cdi",
+    "extensions": [
+      "chd",
+      "iso"
+    ]
+  },
+  {
+    "id": "amiga",
+    "name": "Commodore Amiga",
+    "shortName": "Amiga",
+    "group": "Computers",
+    "coreAsset": "puae",
+    "extensions": [
+      "adf",
+      "adz",
+      "dms",
+      "ipf"
+    ]
+  },
+  {
+    "id": "c64",
+    "name": "Commodore 64",
+    "shortName": "C64",
+    "group": "Computers",
+    "coreAsset": "vice_x64sc",
+    "extensions": [
+      "d64",
+      "t64",
+      "crt",
+      "prg",
+      "tap"
+    ]
+  },
+  {
+    "id": "c128",
+    "name": "Commodore 128",
+    "shortName": "C128",
+    "group": "Computers",
+    "coreAsset": "vice_x128",
+    "extensions": [
+      "d64",
+      "d71",
+      "d81",
+      "t64",
+      "prg",
+      "tap"
+    ]
+  },
+  {
+    "id": "pet",
+    "name": "Commodore PET",
+    "shortName": "PET",
+    "group": "Computers",
+    "coreAsset": "vice_xpet",
+    "extensions": [
+      "prg",
+      "tap"
+    ]
+  },
+  {
+    "id": "plus4",
+    "name": "Commodore Plus/4",
+    "shortName": "Plus/4",
+    "group": "Computers",
+    "coreAsset": "vice_xplus4",
+    "extensions": [
+      "d64",
+      "prg"
+    ]
+  },
+  {
+    "id": "vic20",
+    "name": "Commodore VIC-20",
+    "shortName": "VIC-20",
+    "group": "Computers",
+    "coreAsset": "vice_xvic",
+    "extensions": [
+      "d64",
+      "prg",
+      "crt"
+    ]
+  },
+  {
+    "id": "dos",
+    "name": "DOS",
+    "shortName": "DOS",
+    "group": "Computers",
+    "coreAsset": "dosbox_pure",
+    "extensions": [
+      "zip",
+      "7z",
+      "exe",
+      "com",
+      "img"
+    ]
+  },
+  {
+    "id": "cpc",
+    "name": "Amstrad CPC",
+    "shortName": "CPC",
+    "group": "Computers",
+    "coreAsset": "cap32",
+    "extensions": [
+      "dsk",
+      "sna",
+      "cpr"
+    ]
+  },
+  {
+    "id": "spectrum",
+    "name": "ZX Spectrum",
+    "shortName": "Spectrum",
+    "group": "Computers",
+    "coreAsset": "fuse",
+    "extensions": [
+      "tap",
+      "tzx",
+      "z80",
+      "sna",
+      "scl",
+      "trd"
+    ]
+  },
+  {
+    "id": "zx81",
+    "name": "Sinclair ZX81",
+    "shortName": "ZX81",
+    "group": "Computers",
+    "coreAsset": "81",
+    "extensions": [
+      "p",
+      "81",
+      "p81"
+    ]
+  },
+  {
+    "id": "doom",
+    "name": "DOOM (PrBoom)",
+    "shortName": "DOOM",
+    "group": "Game Engines",
+    "coreAsset": "prboom",
+    "extensions": [
+      "wad"
+    ]
+  },
+  {
+    "id": "neogeo",
+    "name": "Neo Geo",
+    "shortName": "Neo Geo",
+    "group": "SNK",
+    "coreAsset": "mame2003_plus",
+    "extensions": [
+      "zip"
+    ]
+  },
+  {
+    "id": "pce-cd",
+    "name": "TurboGrafx CD",
+    "shortName": "TurboGrafx CD",
+    "group": "NEC",
+    "coreAsset": "mednafen_pce",
+    "extensions": [
+      "chd",
+      "iso",
+      "cue",
+      "bin"
+    ]
+  },
+  {
+    "id": "dreamcast",
+    "name": "Sega Dreamcast",
+    "shortName": "Dreamcast",
+    "group": "Sega",
+    "coreAsset": "",
+    "extensions": [
+      "chd",
+      "cdi",
+      "gdi",
+      "iso"
+    ]
+  },
+  {
+    "id": "gamecube",
+    "name": "Nintendo GameCube",
+    "shortName": "GameCube",
+    "group": "Nintendo",
+    "coreAsset": "",
+    "extensions": [
+      "rvz",
+      "iso",
+      "gcm"
+    ]
+  }
+]

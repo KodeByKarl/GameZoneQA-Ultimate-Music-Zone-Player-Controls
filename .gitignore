@@ -1,0 +1,11 @@
+node_modules/
+dist_electron/
+binaries/
+**/bin/
+**/obj/
+*.exe
+*.old.exe
+*.pdb
+.vs/
+script/browsers/
+tools/.cache/
