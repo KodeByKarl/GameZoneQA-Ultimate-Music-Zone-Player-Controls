@@ -1,6 +1,6 @@
 {
   "name": "GameZoneQA-Ultimate",
-  "version": "4.2.2",
+  "version": "4.2.1",
   "description": "GameZoneQA Ultimate",
   "main": "start.js",
   "scripts": {

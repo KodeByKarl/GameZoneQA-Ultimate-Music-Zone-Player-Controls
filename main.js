@@ -3965,7 +3965,11 @@ ipcMain.handle('youtube-music-view', async (event, request = {}) => {
                             event.preventDefault(); event.stopPropagation(); event.stopImmediatePropagation();
                             const native = roots.map((root) => root.querySelector('button.ytp-fullscreen-button')).find(Boolean);
                             if (musicIsFullscreen(roots)) await musicExitFullscreen(roots);
-                            else if (native) native.click();
+                            else if (native) {
+                                native.click();
+                                await new Promise((resolve) => setTimeout(resolve, 400));
+                                if (!musicIsFullscreen(roots)) { try { await document.documentElement.requestFullscreen?.(); } catch (_) {} }
+                            }
                             else { const target = document.querySelector('ytmusic-player-page') || document.documentElement; try { await target.requestFullscreen?.(); } catch (_) {} }
                         }, true);
                     };
@@ -4223,7 +4227,7 @@ ipcMain.handle('youtube-music-control', async (event, action) => {
             return Boolean(playerUrl);
         })()`);
     } else if (action === 'fullscreen') {
-        await contents.executeJavaScript(`(() => {
+        await contents.executeJavaScript(`(async () => {
             if (document.fullscreenElement) { document.exitFullscreen?.(); return true; }
             const roots = [document];
             const seen = new Set();
@@ -4232,7 +4236,12 @@ ipcMain.handle('youtube-music-control', async (event, action) => {
                 if (!root || seen.has(root)) continue;
                 seen.add(root);
                 const button = root.querySelector('button.ytp-fullscreen-button');
-                if (button) { button.click(); return true; }
+                if (button) {
+                    button.click();
+                    await new Promise((resolve) => setTimeout(resolve, 400));
+                    if (!document.fullscreenElement) { try { await document.documentElement.requestFullscreen?.(); } catch (_) {} }
+                    return true;
+                }
                 for (const node of root.querySelectorAll('*')) if (node.shadowRoot) roots.push(node.shadowRoot);
             }
             const target = document.querySelector('ytmusic-player-page') || document.documentElement;
